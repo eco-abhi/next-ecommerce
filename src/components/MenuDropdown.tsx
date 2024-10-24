@@ -16,7 +16,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ menuItems, selectedMenuItem
 
     useEffect(() => {
         selectedMenuItem(selectedItem);
-    })
+    }, [selectedItem])
 
     return (
         <div className="">
@@ -36,7 +36,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ menuItems, selectedMenuItem
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                strokeWidth={2}
+                                strokeWidth={2.5}
                                 d="M5 5l7 7-7 7"
                             />
                         </svg>

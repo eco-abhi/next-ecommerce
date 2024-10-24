@@ -28,3 +28,7 @@ declare type CollectionItem = {
     subCollection?: CollectionItem[];
     tag?: string;
 }
+
+declare interface NanobarProps {
+    messages: string[];
+}

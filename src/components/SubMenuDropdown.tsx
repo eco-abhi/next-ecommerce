@@ -18,22 +18,6 @@ const SubMenuDropdown: React.FC<SubMenuDropdownProps> = ({ subMenuItems, closeMe
                             {item.tag && <span className="inline-block px-2 text-sm font-latino font-semibold text-white bg-[#B5BCA6] rounded-full">{item.tag}</span>} {/* Conditionally render tag */}
                         </div>
 
-
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            className="w-5 h-5 text-gray-800"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 5l7 7-7 7"
-                            />
-                        </svg>
-
                     </Link>
                 ))}
             </ul>

@@ -12,7 +12,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, backButtonSelect
     }
 
     return (
-        <div className="absolute left-0 top-0 pl-32 pr-64 pt-8 border border-2 border-black w-[95%] h-screen bg-[#FCFAF8]">
+        <>
             <div className="flex flex-row items-center">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -25,14 +25,14 @@ const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, backButtonSelect
                     <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
+                        strokeWidth={2.0}
                         d="M19 5l-7 7 7 7"
                     />
                 </svg>
                 <h1 className="flex-grow text-2xl font-semibold text-center text-lg">{label}</h1>
             </div>
             <SubMenuDropdown subMenuItems={submenuItems} closeMenu={handleLinkClick} />
-        </div>
+        </>
     )
 }
 

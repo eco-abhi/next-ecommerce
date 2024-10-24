@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Nanobar from "@/components/Nanobar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " bg-[#FCFAF8]"}>
+        <Nanobar messages={["Welcome to Lama Dev", "Enjoy your stay!"]} />
         <Navbar />
         {children}
         <Footer />
