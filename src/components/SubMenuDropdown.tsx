@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Tag from "./Tag";
 
 
 const SubMenuDropdown: React.FC<SubMenuDropdownProps> = ({ subMenuItems, closeMenu }) => {
@@ -15,7 +15,7 @@ const SubMenuDropdown: React.FC<SubMenuDropdownProps> = ({ subMenuItems, closeMe
 
                         <div>
                             <span className="flex-1 pr-4">{item.label}</span> {/* Text part */}
-                            {item.tag && <span className="inline-block px-2 text-sm font-latino font-semibold text-white bg-[#B5BCA6] rounded-full">{item.tag}</span>} {/* Conditionally render tag */}
+                            {item.tag && <Tag text={item.tag} />} {/* Conditionally render tag */}
                         </div>
 
                     </Link>

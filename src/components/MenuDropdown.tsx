@@ -1,5 +1,6 @@
-import React, { use } from 'react'
+import React from 'react'
 import { useState, useEffect } from 'react'
+import Image from 'next/image';
 
 interface MenuDropdownProps {
     menuItems: MenuItem[];
@@ -12,11 +13,17 @@ type MenuItem = {
 
 const MenuDropdown: React.FC<MenuDropdownProps> = ({ menuItems, selectedMenuItem }) => {
 
-    const [selectedItem, setSelectedItem] = useState(''); // State to keep track of selected item
+    const [selectedItem, setSelectedItem] = useState(""); // State to keep track of selected item
 
     useEffect(() => {
-        selectedMenuItem(selectedItem);
+        if (selectedItem) {
+            selectedMenuItem(selectedItem);
+        }
     }, [selectedItem])
+
+    useEffect(() => {
+        setSelectedItem('')
+    }, [selectedMenuItem])
 
     return (
         <div className="">
@@ -26,20 +33,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ menuItems, selectedMenuItem
 
                         <span className="flex-1">{item.label}</span> {/* Text part */}
 
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            className="w-5 h-5 text-gray-800"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M5 5l7 7-7 7"
-                            />
-                        </svg>
+                        <Image src='/right-caret.svg' alt='Select' className='text-gray-800' width={15} height={15} priority />
 
                     </li>
                 ))}

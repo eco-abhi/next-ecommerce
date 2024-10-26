@@ -18,7 +18,7 @@ const Nanobar: React.FC<NanobarProps> = ({ messages }) => {
     }, [messages]);
 
     return (
-        <div className="w-full md:h-10 h-[60px] bg-[#273455] text-white text-center flex items-center justify-center text-sm font-semibold">
+        <div className={`w-full md:h-10 h-[60px] bg-[#273455] text-white text-center flex items-center justify-center text-sm font-semibold ${messages.length ? "" : "hidden"}`}>
             {/* Display the current message */}
             <div>{messages[currentIndex]}</div>
         </div>
