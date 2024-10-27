@@ -10,9 +10,12 @@ import { useRouter } from 'next/navigation';
 import CartModal from './CartModal';
 import { useSearchBarStore } from "../store/searchBarStore";
 import useClickOutside from '@/hooks/useClickOutside';
+import BottomModal from './BottomModal';
+import BottmoModalMessage from './BottmoModalMessage';
 
 function DesktopNavMenu() {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false)
     const [isCartOpen, setIsCartOpen] = useState(false)
 
     const cartModalRef = useRef<HTMLDivElement>(null);
@@ -35,6 +38,10 @@ function DesktopNavMenu() {
 
     const handleCloseSearchBar = () => {
         toggleOpenSearchBar(false)
+    }
+
+    const handleNotificationClick = () => {
+        setIsNotificationOpen(true)
     }
 
     // Temporary function
@@ -69,7 +76,8 @@ function DesktopNavMenu() {
                 </ul>
             </div>
             <div className='flex flex-row gap-6'>
-                <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' priority />
+                <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' onClick={handleNotificationClick} priority />
+                {isNotificationOpen && <BottomModal isOpen={isNotificationOpen} onClose={() => setIsNotificationOpen(false)} children={<BottmoModalMessage />} />}
                 <div className='relative' ref={searchIconRef}><Image src="/search.svg" alt="Search" width={18} height={18} className='cursor-pointer' onClick={handleSearchIconClick} priority />
                     {isProfileOpen && <div ref={profileModalRef} className='absolute bg-[#FCFAF8] shadow-lg p-4 rounded-lg top-12 left-0 z-20'>
                         <Link href='/'>Profile</Link>

@@ -142,7 +142,7 @@ function MobileNavMenu() {
             </div>
             <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>brooklinen</Link>
             <div>
-                <div className='flex flex-row gap-6'>
+                <div className={`flex flex-row gap-6 ${openMenu ? "fixed inset-0 z-50 bg-[#4C4A72] bg-opacity-30" : ""}`}>
                     <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' priority />
                     <Image src="/search.svg" alt="Search" width={18} height={18} className='cursor-pointer' onClick={handleSearchIconClick} priority />
                     <Image src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' priority />
