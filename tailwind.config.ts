@@ -14,6 +14,12 @@ const config: Config = {
         '20p': '20%', // 20% padding
         '30p': '30%', // 30% padding
       },
+      screens: {
+        'smaller': '500px', // Custom screen size at 500px
+        'tablet': '850px',   // Custom screen size at 768px (like md)
+        'laptop': '1024px',  // Custom screen size at 1024px (like lg)
+        'desktop': '1280px', // Custom screen size at 1280px
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

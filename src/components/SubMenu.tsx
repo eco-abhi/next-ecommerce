@@ -2,7 +2,7 @@
 import SubMenuDropdown from "./SubMenuDropdown"
 import Image from "next/image"
 
-const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, backButtonSelected, closeMenu }) => {
+const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, otherCollection, backButtonSelected, closeMenu }) => {
 
     const handleBackButtonClick = () => {
         backButtonSelected(true)
@@ -27,7 +27,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, backButtonSelect
 
                 <h1 className="flex-grow font-semibold text-center text-lg">{label}</h1>
             </div>
-            <SubMenuDropdown subMenuItems={submenuItems} closeMenu={handleLinkClick} />
+            <SubMenuDropdown subMenuItems={submenuItems} closeMenu={handleLinkClick} otherCollection={otherCollection} />
         </>
     )
 }

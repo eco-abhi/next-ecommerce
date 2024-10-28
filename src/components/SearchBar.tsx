@@ -2,6 +2,7 @@
 import { use, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSearchBarStore } from "@/store/searchBarStore";
 
 interface SearchBarProps {
     closeSearchBar: () => void;
@@ -9,22 +10,22 @@ interface SearchBarProps {
 
 function SearchBar({ closeSearchBar }: SearchBarProps) {
 
-    const [searchText, setSearchText] = useState('');
+    const { searchBarInputText, setSearchBarInputText } = useSearchBarStore();
 
     const router = useRouter();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchText(e.target.value);
+        setSearchBarInputText(e.target.value);
     };
 
     const handleSearchClose = () => {
-        setSearchText('');
+        setSearchBarInputText('');
         closeSearchBar();
     }
 
     const handleSearchSubmit = () => {
-        if (searchText) {
-            router.push(`/search?q=${searchText}`);
+        if (searchBarInputText) {
+            router.push(`/search?q=${searchBarInputText}`);
         }
         closeSearchBar();
     }
@@ -44,7 +45,7 @@ function SearchBar({ closeSearchBar }: SearchBarProps) {
 
                 <input
                     name="search-name"
-                    value={searchText}
+                    value={searchBarInputText}
                     onChange={handleInputChange}
                     type="text"
                     placeholder="Search Brooklinen"
@@ -63,7 +64,7 @@ function SearchBar({ closeSearchBar }: SearchBarProps) {
 
             </div>
 
-            {searchText.length > 2 && (
+            {searchBarInputText.length > 2 && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-[#FCFAF8] rounded-3xl shadow-lg border border-gray-200 overflow-hidden pb-4">
                     <div className="border-t border-gray-100">
                         <button
@@ -71,7 +72,7 @@ function SearchBar({ closeSearchBar }: SearchBarProps) {
                             onClick={handleSearchSubmit}
                         >
                             <span className="font-semibold text-[#04247D] hover:underline underline-offset-4 text-base font-yantramanav px-4">
-                                View all search results for {searchText}
+                                View all search results for {searchBarInputText}
                             </span>
                         </button>
                     </div>

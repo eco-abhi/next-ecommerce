@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   description: "A complete e-commerce application with Next.js and Wix",
 };
 
+const messages = [
+  "Welcome to our store! 🎉",
+  "Get 20% off on all winter collection! ❄️",
+  "Free shipping on orders above $50 📦",
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " bg-[#FCFAF8]"}>
-        <Nanobar messages={["Welcome to Lama Dev", "Enjoy your stay!"]} />
+        <Nanobar messages={messages} />
         <Navbar />
         {children}
         <Footer />

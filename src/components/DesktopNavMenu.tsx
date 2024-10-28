@@ -77,7 +77,7 @@ function DesktopNavMenu() {
             </div>
             <div className='flex flex-row gap-6'>
                 <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' onClick={handleNotificationClick} priority />
-                {isNotificationOpen && <BottomModal isOpen={isNotificationOpen} onClose={() => setIsNotificationOpen(false)} children={<BottmoModalMessage />} />}
+                <BottomModal isOpen={isNotificationOpen} onClose={() => setIsNotificationOpen(false)} children={<BottmoModalMessage />} />
                 <div className='relative' ref={searchIconRef}><Image src="/search.svg" alt="Search" width={18} height={18} className='cursor-pointer' onClick={handleSearchIconClick} priority />
                     {isProfileOpen && <div ref={profileModalRef} className='absolute bg-[#FCFAF8] shadow-lg p-4 rounded-lg top-12 left-0 z-20'>
                         <Link href='/'>Profile</Link>

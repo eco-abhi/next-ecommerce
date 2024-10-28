@@ -20,6 +20,8 @@ function MobileNavMenu() {
     const [openMenu, setOpenMenu] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState('')
     const [subCollection, setSubCollection] = useState<CollectionItem[]>([])
+    const [otherCollection, setOtherCollection] = useState<CollectionItem>()
+
     const [isMobile, setIsMobile] = useState(false);
     const [hideMenuButton, setHideMenuButton] = useState(false);
     const { navItems } = useNavLinkStore();
@@ -53,8 +55,13 @@ function MobileNavMenu() {
 
     useEffect(() => {
         if (selectedCategory) {
+            // Sub collection
             const subCollectionArr = categoryItems.find(category => category.label === selectedCategory)?.subCollection;
             setSubCollection(subCollectionArr || [])
+
+            // Other collection
+            const otherCollectionArr = categoryItems.find(category => category.label === selectedCategory)?.otherCollection;
+            setOtherCollection(otherCollectionArr)
         }
 
     }, [selectedCategory])
@@ -127,7 +134,7 @@ function MobileNavMenu() {
                     </div>
                     <div className="pt-8 cursor-pointer z-[999] font-mantramanav">
                         <MenuDropdown menuItems={categoryItems} selectedMenuItem={handleSlectedMenuItem} />
-                        <LinkDropdown links={navItems} />
+                        <LinkDropdown links={navItems} handleCloseMenu={() => handleCloseMenu} />
 
                     </div>
                 </div>
@@ -136,13 +143,13 @@ function MobileNavMenu() {
                     ? 'translate-x-0 opacity-100'
                     : '-translate-x-full opacity-0'
                     }`}>
-                    <SubMenu label={selectedCategory} submenuItems={subCollection} backButtonSelected={handleSubMenuBackButton} closeMenu={handleCloseMenu} />
+                    <SubMenu label={selectedCategory} submenuItems={subCollection} otherCollection={otherCollection} backButtonSelected={handleSubMenuBackButton} closeMenu={handleCloseMenu} />
                 </div>
 
             </div>
             <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>brooklinen</Link>
-            <div>
-                <div className={`flex flex-row gap-6 ${openMenu ? "fixed inset-0 z-50 bg-[#4C4A72] bg-opacity-30" : ""}`}>
+            <div className={`${openMenu ? "fixed inset-0 z-50 bg-[#4C4A72] bg-opacity-30" : ""}`}>
+                <div className={`flex flex-row gap-6`}>
                     <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' priority />
                     <Image src="/search.svg" alt="Search" width={18} height={18} className='cursor-pointer' onClick={handleSearchIconClick} priority />
                     <Image src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' priority />
