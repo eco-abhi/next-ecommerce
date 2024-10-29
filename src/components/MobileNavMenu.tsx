@@ -14,6 +14,8 @@ import { useSearchBarStore } from "../store/searchBarStore";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from './SearchBar';
+import { useShoppingCartStore } from "@/store/shoppingCartStore";
+import CartModal from './CartModal';
 
 function MobileNavMenu() {
 
@@ -24,9 +26,12 @@ function MobileNavMenu() {
 
     const [isMobile, setIsMobile] = useState(false);
     const [hideMenuButton, setHideMenuButton] = useState(false);
+
+
     const { navItems } = useNavLinkStore();
     const { categoryItems } = useSaleCategoryStore();
     const { openSearchBar, toggleOpenSearchBar } = useSearchBarStore();
+    const { cartModalOpen, setCartModalOpen } = useShoppingCartStore();
 
     const mobileNavMenuRef = useRef(null);
     const searchModalRef = useRef(null);
@@ -40,7 +45,11 @@ function MobileNavMenu() {
 
     }
 
-    const handleCloseMenu = (bool: boolean) => {
+    const handleCartClick = () => {
+        setCartModalOpen(!cartModalOpen)
+    }
+
+    const handleCloseMenu = () => {
         setOpenMenu(false)
 
     }
@@ -112,12 +121,13 @@ function MobileNavMenu() {
     }, [isMobile]);
 
 
-    useClickOutside([mobileNavMenuRef], () => setOpenMenu(false));
+    // useClickOutside([mobileNavMenuRef], () => setOpenMenu(false));
 
 
     return (!openSearchBar ? (
         <>
-            <div ref={mobileNavMenuRef} className={`bg-[#FCFAF8] z-[100] ${hideMenuButton ? "hidden" : ""}`}>
+
+            <div ref={mobileNavMenuRef} className={`bg-[#FCFAF8] z-[99] ${hideMenuButton ? "hidden" : ""}`}>
                 <TbMenu className="cursor-pointer w-[25px] h-[25px]" onClick={() => setOpenMenu((prev) => !prev)} />
 
                 <div className={`fixed md:pl-32 md:pr-48 pl-24 pr-16 left-0 top-0 pt-8 border-2 border-r-[#273455] bg-[#FCFAF8] w-[95%] h-screen z-40 duration-500 ease-in-out
@@ -152,12 +162,17 @@ function MobileNavMenu() {
                 <div className={`flex flex-row gap-6`}>
                     <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' priority />
                     <Image src="/search.svg" alt="Search" width={18} height={18} className='cursor-pointer' onClick={handleSearchIconClick} priority />
-                    <Image src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' priority />
+                    <Image src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' onClick={handleCartClick} priority />
                 </div>
             </div>
+
+            <CartModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} />
+
         </>) : <div className='items-center justify-between w-full' ref={searchModalRef}>
         <SearchBar closeSearchBar={handleCloseSearchBar} />
+
     </div>
+
 
     )
 }

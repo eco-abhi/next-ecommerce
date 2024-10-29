@@ -2,6 +2,7 @@ import React, { CSSProperties } from 'react'
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import CloseButton from "../../public/close-button.svg"
 
 interface BottomModalProps {
     isOpen: boolean;
@@ -38,7 +39,7 @@ const BottomModal: React.FC<BottomModalProps> = ({ isOpen, onClose, children }) 
     if (!shouldRender) return null;
 
     return (
-        <div className={`fixed inset-0 z-50 flex items-end justify-center bg-[#4C4A72] transition-opacity duration-500 px-4
+        <div className={`fixed inset-0 z-50 flex items-end justify-center bg-black transition-opacity duration-500 px-4
             ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}>
             <div
                 onClick={onClose}
@@ -50,14 +51,13 @@ const BottomModal: React.FC<BottomModalProps> = ({ isOpen, onClose, children }) 
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className='group relative'>
-                    <Image
-                        alt='Close modal'
-                        src="/close-button.svg"
-                        height={20}
-                        width={20}
+
+                    <button
                         onClick={onClose}
-                        className='absolute top--2 right-24 cursor-pointer text-gray-600 object-cover transition-transform duration-500 ease-in-out group-hover:rotate-90'
-                    />
+                        className="p-2 hover:bg-gray-200 rounded-full transition-colors duration-200 absolute top--2 right-24 cursor-pointer text-gray-900 object-cover"
+                    >
+                        <CloseButton className="h-6 w-6" />
+                    </button>
                 </div>
                 {children}
             </div>

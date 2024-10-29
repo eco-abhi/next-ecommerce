@@ -1,96 +1,102 @@
 "use client";
 
-import Image from "next/image";
+import React, { useEffect, useState } from 'react';
+import CloseButton from '../../public/close-button.svg';
+import useClickOutside from '@/hooks/useClickOutside';
 
-function CartModal() {
-
-    const cartItems = true
-
-    return (
-        <div className="w-max font-yantramanav absolute p-4 rounded-md shadow-sm bg-white top-12 right-0 flex flex-col">
-            {!cartItems ?
-                (
-                    <div className="">Cart is empty</div>) : (
-                    <>
-                        <h4 className="text-xl mb-4">Shopping Cart</h4>
-                        {/* CART ITEMS */}
-                        <div className="flex flex-col gap-8">
-                            {/* ITEM */}
-                            <div className="flex gap-4">
-                                <div className="relative w-[72px] h-[96px]">
-                                    <Image layout="fill" src="/linen.webp" alt="" className="object-cover rounded-md" />
-                                </div>
-                                <div className="flex flex-col justify-between w-full">
-                                    {/* TOP */}
-                                    <div className="">
-                                        {/* TITLE */}
-                                        <div className="flex items-center justify-between gap-8">
-                                            <h3 className="font-semibold">Product Name </h3>
-                                            <div className="p-1 bg-gray-50 rounded-sm">$49</div>
-                                            { /* DESC */}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            available
-                                        </div>
-
-                                    </div>
-                                    <div className="flex justify-between text-sm mt-6">
-                                        <span className="text-gray-500">Qty. 2</span>
-                                        <span className="text-blue-500">Remove</span>
-
-                                    </div>
-                                </div>
-                            </div>
-                            {/* ITEM */}
-                            <div className="flex gap-4">
-                                <div className="relative w-[72px] h-[96px]">
-                                    <Image layout="fill" src="/linen.webp" alt="" className="object-cover rounded-md" />
-                                </div>
-                                <div className="flex flex-col justify-between w-full">
-                                    {/* TOP */}
-                                    <div className="">
-                                        {/* TITLE */}
-                                        <div className="flex items-center justify-between gap-8">
-                                            <h3 className="font-semibold">Product Name </h3>
-                                            <div className="p-1 bg-gray-50 rounded-sm">$49</div>
-                                            { /* DESC */}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            available
-                                        </div>
-
-                                    </div>
-                                    <div className="flex justify-between text-sm mt-6">
-                                        <span className="text-gray-500">Qty. 2</span>
-                                        <span className="text-blue-500">Remove</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        {/* BOTTOM */}
-                        <div className="mt-6">
-                            <div className="flex items-center justify-between font-semibold">
-                                <span className="c">Subtotal</span>
-                                <span className="sd">$49</span>
-                            </div>
-                            <p className="text-gray-500 text-sm mt-2 mb-4">
-                                Shipping and taxes calculated at checkout
-                            </p>
-                            <div className="flex justify-between text-sm">
-
-                                <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">View Cart</button>
-                                <button className="rounded-md py-3 px-4 bg-[#273455] text-white">Checkout</button>
-                            </div>
-                        </div>
-                    </>
-
-                )
-            }
-        </div >
-    )
+interface SideModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    //   children: React.ReactNode;
+    title?: string;
+    itemCount?: number;
 }
 
-export default CartModal
+const cartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [shouldRender, setShouldRender] = useState(false);
+    const [screenWidth, setScreenWidth] = useState(0);
+
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isOpen) {
+            setShouldRender(true);
+            setTimeout(() => {
+                setIsAnimating(true);
+            }, 10);
+        } else {
+            setIsAnimating(false);
+            const timer = setTimeout(() => {
+                setShouldRender(false);
+            }, 600);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') onClose();
+        };
+        if (isOpen) document.addEventListener('keydown', handleEsc);
+        return () => document.removeEventListener('keydown', handleEsc);
+    }, [isOpen, onClose]);
+
+    if (!shouldRender) return null;
+
+
+    return (
+        <div
+            className={`fixed inset-0 z-[1000] flex justify-end bg-black transition-opacity duration-600
+        ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}
+        >
+            <div
+                onClick={onClose}
+                className="absolute inset-0"
+            />
+            <div
+                className={`relative bg-white transform transition-transform duration-300 ease-in-out overflow-auto
+          ${isAnimating ? '-translate-x-0' : 'translate-x-full'} ${screenWidth < 850
+                        ? 'w-full'
+                        : 'w-full max-w-md'
+                    }`}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    console.log('clicked')
+                }}
+            >
+                <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
+                    <div className="px-6 py-4 flex justify-between items-center">
+                        <h2 className="text-xl font-bold">
+                            {"Your Bag"} {itemCount > 0 && `(${itemCount})`}
+                        </h2>
+                        <button
+                            onClick={onClose}
+                            className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                        >
+                            <CloseButton className="h-6 w-6" />
+                        </button>
+                    </div>
+                </div>
+
+                <div className="px-6 py-4">
+                    {/* {children} */}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default cartModal;

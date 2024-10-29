@@ -12,11 +12,12 @@ import { useSearchBarStore } from "../store/searchBarStore";
 import useClickOutside from '@/hooks/useClickOutside';
 import BottomModal from './BottomModal';
 import BottmoModalMessage from './BottmoModalMessage';
+import { useShoppingCartStore } from '@/store/shoppingCartStore';
 
 function DesktopNavMenu() {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const [isNotificationOpen, setIsNotificationOpen] = useState(false)
-    const [isCartOpen, setIsCartOpen] = useState(false)
+    const { cartModalOpen, setCartModalOpen } = useShoppingCartStore();
 
     const cartModalRef = useRef<HTMLDivElement>(null);
     const cartIconRef = useRef<HTMLImageElement>(null);
@@ -44,6 +45,10 @@ function DesktopNavMenu() {
         setIsNotificationOpen(true)
     }
 
+    const handleCartClick = () => {
+        setCartModalOpen(true)
+    }
+
     // Temporary function
     const isLoggedIn = false
     const handleProfileClick = () => {
@@ -53,9 +58,9 @@ function DesktopNavMenu() {
         setIsProfileOpen(() => !isProfileOpen)
     }
 
-    useClickOutside([cartModalRef, cartIconRef], () => setIsCartOpen(false));
+    // useClickOutside([cartModalRef, cartIconRef], () => setCartModalOpen(false));
     useClickOutside([profileModalRef, profileIconRef], () => setIsProfileOpen(false));
-    // useClickOutside([searchModalRef], () => setOpenSearchBar(false));
+    useClickOutside([searchModalRef], () => toggleOpenSearchBar(false));
 
 
     return (
@@ -85,11 +90,11 @@ function DesktopNavMenu() {
                     </div>
                     }</div>
                 <Image ref={profileIconRef} src="/account.svg" alt="Account" width={16} height={18} className='cursor-pointer hidden lg:inline-block' onClick={handleProfileClick} priority />
-                <div className='relative cursor-pointer '>
-                    <Image ref={cartIconRef} src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' onClick={() => setIsCartOpen((prev) => !prev)}
+                <div className='relative '>
+                    <Image ref={cartIconRef} src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' onClick={handleCartClick}
                         priority />
                     <div className='absolute -top-1.5 -right-4 w-3.5 h-3.5 rounded-full bg-[#273455] flex items-center text-white text-xs font-yantramanav justify-center'>2</div>
-                    {isCartOpen && <div ref={cartModalRef}><CartModal /></div>}
+                    {<div ref={cartModalRef}><CartModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} /></div>}
 
                 </div>
             </div>
