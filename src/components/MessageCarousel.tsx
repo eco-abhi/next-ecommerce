@@ -80,6 +80,7 @@ const MessageCarousel = ({
     return (
         <div className="w-full mx-auto font-yantramanav">
             <div className="relative overflow-hidden shadow-lg w-full md:h-10 h-[60px] bg-[#273455] items-center justify-center text-center">
+
                 {/* Slides */}
                 {messages.map((message, index) => (
                     <div
@@ -87,7 +88,7 @@ const MessageCarousel = ({
                         className={getSlideClassName(index)}
                     >
                         <div className="w-full h-full flex items-center justify-center text-center">
-                            <p className="text-white text-sm font-medium text-center">
+                            <p className="text-white text-sm font-medium text-center mask-fade">
                                 {message}
                             </p>
                         </div>
@@ -95,12 +96,12 @@ const MessageCarousel = ({
                 ))}
 
                 {/* Navigation buttons */}
-                <div className="absolute w-8 h-8 left-4 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
+                <div className="absolute w-8 h-8 left-16 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
                     <LeftCaret color='white' className="stroke-white" style={{ transform: 'translateX(-2px)' }}
                     />
                 </div>
 
-                <div className="absolute w-8 h-8 right-4 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
+                <div className="absolute w-8 h-8 right-16 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
                     <RightCaret color='white' className="stroke-white" style={{ transform: 'translateX(2px)' }} />
                 </div>
             </div>

@@ -3,7 +3,7 @@ import Tag from "./Tag";
 import LinkDropdown from "./LinkDropdown";
 
 
-const SubMenuDropdown: React.FC<SubMenuDropdownProps> = ({ subMenuItems, closeMenu, otherCollection }) => {
+const MobileSubMenuDropdown: React.FC<MobileSubMenuDropdownProps> = ({ subMenuItems, closeMenu, otherCollection }) => {
 
     const handleLinkClick = () => {
         closeMenu(true)
@@ -60,4 +60,4 @@ const SubMenuDropdown: React.FC<SubMenuDropdownProps> = ({ subMenuItems, closeMe
     )
 }
 
-export default SubMenuDropdown
+export default MobileSubMenuDropdown

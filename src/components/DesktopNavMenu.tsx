@@ -2,7 +2,6 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { useSaleCategoryStore } from '../store/saleCategoryStore'
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import SearchBar from './SearchBar';
@@ -13,11 +12,19 @@ import useClickOutside from '@/hooks/useClickOutside';
 import BottomModal from './BottomModal';
 import BottmoModalMessage from './BottmoModalMessage';
 import { useShoppingCartStore } from '@/store/shoppingCartStore';
+import DesktopSubMenu from './DesktopSubMenu';
+import { useSaleCategoryStore } from "@/store/saleCategoryStore";
+
 
 function DesktopNavMenu() {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const [isNotificationOpen, setIsNotificationOpen] = useState(false)
+    const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
     const { cartModalOpen, setCartModalOpen } = useShoppingCartStore();
+
+    const [subCollection, setSubCollection] = useState<CollectionItem[]>([])
+    const [otherCollection, setOtherCollection] = useState<CollectionItem>()
 
     const cartModalRef = useRef<HTMLDivElement>(null);
     const cartIconRef = useRef<HTMLImageElement>(null);
@@ -60,11 +67,43 @@ function DesktopNavMenu() {
 
     // useClickOutside([cartModalRef, cartIconRef], () => setCartModalOpen(false));
     useClickOutside([profileModalRef, profileIconRef], () => setIsProfileOpen(false));
-    useClickOutside([searchModalRef], () => toggleOpenSearchBar(false));
+
+
+    // Set up useClickOutside only after searchModalRef is assigned a DOM element
+    useClickOutside([searchModalRef], () => {
+        if (openSearchBar) {  // Only close if search bar is open
+            console.log('Click outside search modal');
+            toggleOpenSearchBar(false);
+        }
+    });
+
+    const handleMouseEnter = (category: string) => {
+        console.log('Category', category);
+        setActiveCategory(category)
+    };
+
+    const handleMouseLeave = () => {
+        setActiveCategory(null);
+    };
+
+    useEffect(() => {
+        if (activeCategory) {
+            // Sub collection
+            const subCollectionArr = categoryItems.find(category => category.label === activeCategory)?.subCollection;
+            setSubCollection(subCollectionArr || [])
+
+            // Other collection
+            const otherCollectionArr = categoryItems.find(category => category.label === activeCategory)?.otherCollection;
+            setOtherCollection(otherCollectionArr)
+        }
+
+    }, [activeCategory])
+
 
 
     return (
-        !openSearchBar ? (<div className='flex flex-row items-center justify-between w-full'>
+
+        !openSearchBar ? (<><div className='relative flex flex-row items-center justify-between w-full' onMouseLeave={handleMouseLeave}>
             <div>
                 <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>brooklinen</Link>
             </div>
@@ -74,6 +113,7 @@ function DesktopNavMenu() {
                         <li
                             className="flex items-center justify-center lg:p-4 p-2 hover:font-bold hover:underline underline-offset-8 cursor-pointer"
                             key={index}
+                            onMouseEnter={() => handleMouseEnter(item.label)}
                         >
                             <span className="transition-all duration-300">{item.label}</span>
                         </li>
@@ -97,8 +137,16 @@ function DesktopNavMenu() {
                     {<div ref={cartModalRef}><CartModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} /></div>}
 
                 </div>
+
             </div>
-        </div>) :
+            {activeCategory && subCollection.length > 0 &&
+                <div className='absolute top-full left-0 w-full'><DesktopSubMenu subMenuItems={subCollection} otherCollection={otherCollection} /></div>}
+        </div>
+
+        </>
+
+        )
+            :
             <div className='items-center justify-between w-full' ref={searchModalRef}>
                 <SearchBar closeSearchBar={handleCloseSearchBar} />
             </div>

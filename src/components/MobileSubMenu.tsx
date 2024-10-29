@@ -1,8 +1,8 @@
 
-import SubMenuDropdown from "./SubMenuDropdown"
-import Image from "next/image"
+import MobileSubMenuDropdown from "./MobileSubMenuDropdown"
+import LeftCaret from "../../public/left-caret.svg";
 
-const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, otherCollection, backButtonSelected, closeMenu }) => {
+const MobileSubMenu: React.FC<MobileSubMenuProps> = ({ label, submenuItems, otherCollection, backButtonSelected, closeMenu }) => {
 
     const handleBackButtonClick = () => {
         backButtonSelected(true)
@@ -15,9 +15,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, otherCollection,
     return (
         <>
             <div className="flex flex-row items-center">
-                <Image
-                    priority
-                    src="/left-caret.svg"
+                <LeftCaret
                     alt="Go back"
                     className="cursor-pointer"
                     width={25}
@@ -27,9 +25,9 @@ const SubMenu: React.FC<SubMenuProps> = ({ label, submenuItems, otherCollection,
 
                 <h1 className="flex-grow font-semibold text-center text-lg">{label}</h1>
             </div>
-            <SubMenuDropdown subMenuItems={submenuItems} closeMenu={handleLinkClick} otherCollection={otherCollection} />
+            <MobileSubMenuDropdown subMenuItems={submenuItems} closeMenu={handleLinkClick} otherCollection={otherCollection} />
         </>
     )
 }
 
-export default SubMenu
+export default MobileSubMenu

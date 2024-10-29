@@ -1,14 +1,16 @@
+'use client';
+
 import React from 'react'
-import Link from 'next/link'
 import MobileNavMenu from './MobileNavMenu'
 import DesktopNavMenu from './DesktopNavMenu'
-import Image from 'next/image'
+import { useSearchBarStore } from '@/store/searchBarStore'
 
 
 function Navbar() {
+    const { openSearchBar } = useSearchBarStore();
     return (
         <>
-            <div className='h-[68px] md:h-[90px] px-4 md:px-8 lg:px-16 xl:px-40 relative'>
+            <div className={`h-[68px] md:h-[90px] px-4 md:px-8 lg:px-16 xl:px-40 ${openSearchBar ? "bg-white" : ""}`}>
                 {/* Mobile */}
                 <div className='h-full justify-between text-center flex items-center tablet:hidden'>
                     <MobileNavMenu />
@@ -17,7 +19,7 @@ function Navbar() {
                 {/* Desktop */}
 
                 {/* Links */}
-                <div className="hidden tablet:flex flex-grow justify-center items-center h-full">
+                <div className="hidden tablet:flex flex-grow justify-center items-center h-full w-full border-2">
                     <DesktopNavMenu />
                 </div>
             </div>

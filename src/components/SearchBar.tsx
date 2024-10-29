@@ -1,5 +1,5 @@
 "use client"
-import { use, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchBarStore } from "@/store/searchBarStore";
@@ -27,8 +27,25 @@ function SearchBar({ closeSearchBar }: SearchBarProps) {
         if (searchBarInputText) {
             router.push(`/search?q=${searchBarInputText}`);
         }
+        setSearchBarInputText('');
         closeSearchBar();
     }
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                handleSearchSubmit();
+            }
+        };
+
+        if (searchBarInputText) {
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [searchBarInputText, handleSearchSubmit]);
 
     return (
         <div className="relative w-full max-w-2xl mx-auto font-yantramanav">
@@ -49,7 +66,7 @@ function SearchBar({ closeSearchBar }: SearchBarProps) {
                     onChange={handleInputChange}
                     type="text"
                     placeholder="Search Brooklinen"
-                    className="w-full py-2 pl-10 pr-10 rounded-lg outline-none font-light focus:outline-none bg-[#FCFAF8]"
+                    className="w-full py-2 pl-10 pr-10 rounded-lg outline-none font-light focus:outline-none bg-white"
                 />
 
                 <Image

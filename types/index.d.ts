@@ -3,9 +3,14 @@ declare type MenuItem = {
     href: Url;
 };
 
-declare interface SubMenuDropdownProps {
+declare interface MobileSubMenuDropdownProps {
     subMenuItems: CollectionItem[];
     closeMenu: (bool: boolean) => void;
+    otherCollection?: CollectionItem;
+}
+
+declare interface DesktopMenuDropdownProps {
+    subMenuItems: CollectionItem[];
     otherCollection?: CollectionItem;
 }
 
@@ -15,7 +20,7 @@ declare type SubMenuItem = {
     tag?: string;
 }
 
-declare interface SubMenuProps {
+declare interface MobileSubMenuProps {
     label: string;
     submenuItems: CollectionItem[];
     otherCollection?: CollectionItem;

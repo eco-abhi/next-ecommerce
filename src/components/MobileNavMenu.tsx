@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { TbMenu } from "react-icons/tb";
 import { IoCloseSharp } from "react-icons/io5";
 import MenuDropdown from "./MenuDropdown";
-import SubMenu from "./SubMenu";
+import MobileSubMenu from "./MobileSubMenu";
 import LinkDropdown from "./LinkDropdown";
 import { useNavLinkStore } from "../store/navLinksStore";
 import { useSaleCategoryStore } from "@/store/saleCategoryStore";
@@ -121,7 +121,13 @@ function MobileNavMenu() {
     }, [isMobile]);
 
 
-    // useClickOutside([mobileNavMenuRef], () => setOpenMenu(false));
+    useClickOutside([mobileNavMenuRef], () => setOpenMenu(false));
+    // useClickOutside([searchModalRef], () => {
+    //     if (openSearchBar && isMobile) {  // Only close if search bar is open
+    //         console.log('Click outside search modal');
+    //         toggleOpenSearchBar(false);
+    //     }
+    // });
 
 
     return (!openSearchBar ? (
@@ -153,7 +159,7 @@ function MobileNavMenu() {
                     ? 'translate-x-0 opacity-100'
                     : '-translate-x-full opacity-0'
                     }`}>
-                    <SubMenu label={selectedCategory} submenuItems={subCollection} otherCollection={otherCollection} backButtonSelected={handleSubMenuBackButton} closeMenu={handleCloseMenu} />
+                    <MobileSubMenu label={selectedCategory} submenuItems={subCollection} otherCollection={otherCollection} backButtonSelected={handleSubMenuBackButton} closeMenu={handleCloseMenu} />
                 </div>
 
             </div>
@@ -168,7 +174,7 @@ function MobileNavMenu() {
 
             <CartModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} />
 
-        </>) : <div className='items-center justify-between w-full' ref={searchModalRef}>
+        </>) : <div className='items-center justify-between w-full z-50' ref={searchModalRef}>
         <SearchBar closeSearchBar={handleCloseSearchBar} />
 
     </div>
