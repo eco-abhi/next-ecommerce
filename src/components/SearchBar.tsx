@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchBarStore } from "@/store/searchBarStore";
@@ -7,7 +7,6 @@ import { useSearchBarStore } from "@/store/searchBarStore";
 interface SearchBarProps {
     isOpen: boolean;
     onClose: () => void;
-
 }
 
 function SearchBar({ isOpen, onClose }: SearchBarProps) {
@@ -53,13 +52,20 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, handleSearchSubmit, onClose]);
 
+
     if (!shouldRender) return null;
 
     return (
         <>
-            <div className={`fixed inset-0 z-[999] bg-black transition-opacity ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}></div>
+            <div className={`fixed inset-0 z-[501] bg-black transition-opacity ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}></div>
 
-            <div className="fixed top-10 left-0 right-0 z-[1000] flex justify-center h-[88px] bg-white">
+
+            <div
+                onClick={onClose}
+                className="absolute inset-0 z-[503]"
+
+            />
+            <div className="fixed tablet:top-10 top-12 left-0 right-0 z-[1000] flex justify-center h-[88px] bg-white" >
                 <div className="w-full max-w-xl font-yantramanav bg-white p-4 flex items-center justify-center">
                     <div className="relative flex items-center w-full">
 

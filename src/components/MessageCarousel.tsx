@@ -79,7 +79,7 @@ const MessageCarousel = ({
 
     return (
         <div className="w-full mx-auto font-yantramanav">
-            <div className="relative overflow-hidden shadow-lg w-full md:h-10 h-[60px] bg-[#273455] items-center justify-center text-center">
+            <div className="relative overflow-hidden shadow-lg w-full tablet:h-10 h-[60px] bg-[#273455] items-center justify-center text-center">
 
                 {/* Slides */}
                 {messages.map((message, index) => (
@@ -88,7 +88,7 @@ const MessageCarousel = ({
                         className={getSlideClassName(index)}
                     >
                         <div className="w-full h-full flex items-center justify-center text-center">
-                            <p className="text-white text-sm font-medium text-center mask-fade">
+                            <p className="text-white text-sm font-medium text-center">
                                 {message}
                             </p>
                         </div>
