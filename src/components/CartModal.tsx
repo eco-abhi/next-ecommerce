@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import CloseButton from '../../public/close-button.svg';
-import useClickOutside from '@/hooks/useClickOutside';
 
 interface SideModalProps {
     isOpen: boolean;
@@ -74,7 +73,6 @@ const cartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                     }`}
                 onClick={(e) => {
                     e.stopPropagation()
-                    console.log('clicked')
                 }}
             >
                 <div className="sticky top-0 bg-white z-10 border-b border-gray-200">

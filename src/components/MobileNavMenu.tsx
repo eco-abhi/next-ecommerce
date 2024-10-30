@@ -118,71 +118,132 @@ function MobileNavMenu() {
         return () => window.removeEventListener('resize', handleResize);
 
 
-    }, [isMobile]);
+    }, [isMobile, toggleOpenSearchBar]);
 
 
-    useClickOutside([mobileNavMenuRef], () => setOpenMenu(false));
-    // useClickOutside([searchModalRef], () => {
-    //     if (openSearchBar && isMobile) {  // Only close if search bar is open
-    //         console.log('Click outside search modal');
-    //         toggleOpenSearchBar(false);
-    //     }
-    // });
+    return (<>
+        {!openSearchBar ? (
+            <>
+                <div
+                    ref={mobileNavMenuRef}
+                    className={`bg-[#FCFAF8] z-[50] ${hideMenuButton ? "hidden" : ""}`}
+                >
+                    <TbMenu
+                        className="cursor-pointer w-[25px] h-[25px]"
+                        onClick={() => setOpenMenu((prev) => !prev)}
+                    />
 
-
-    return (!openSearchBar ? (
-        <>
-
-            <div ref={mobileNavMenuRef} className={`bg-[#FCFAF8] z-[99] ${hideMenuButton ? "hidden" : ""}`}>
-                <TbMenu className="cursor-pointer w-[25px] h-[25px]" onClick={() => setOpenMenu((prev) => !prev)} />
-
-                <div className={`fixed md:pl-32 md:pr-48 pl-24 pr-16 left-0 top-0 pt-8 border-2 border-r-[#273455] bg-[#FCFAF8] w-[95%] h-screen z-40 duration-500 ease-in-out
-    ${isMobile && openMenu && !selectedCategory
-                        ? 'translate-x-0 opacity-100'
-                        : '-translate-x-full opacity-0'
-                    }`}>
-                    <div className="flex flex-row justify-between items-center w-full">
-                        <div>
-                            <IoCloseSharp className="cursor-pointer w-[25px] h-[25px]" onClick={() => setOpenMenu(false)} />
+                    {/* Mobile Menu Panel */}
+                    <div
+                        className={`
+                  fixed md:pl-32 md:pr-48 pl-24 pr-16 left-0 top-0 pt-8 
+                  border-2 border-r-[#273455] bg-[#FCFAF8] w-[95%] h-screen z-40 
+                  duration-500 ease-in-out
+                  ${isMobile && openMenu && !selectedCategory
+                                ? 'translate-x-0 opacity-100'
+                                : '-translate-x-full opacity-0'
+                            }
+                `}
+                    >
+                        <div className="flex flex-row justify-between items-center w-full">
+                            <div>
+                                <IoCloseSharp
+                                    className="cursor-pointer w-[25px] h-[25px]"
+                                    onClick={() => setOpenMenu(false)}
+                                />
+                            </div>
+                            <div
+                                className="font-josefin_sans text-lg text-bold cursor-pointer text-center"
+                                onClick={() => setOpenMenu(false)}
+                            >
+                                brooklinen
+                            </div>
+                            <div>cart</div>
                         </div>
-                        <div className="font-josefin_sans text-lg text-bold cursor-pointer text-center" onClick={() => setOpenMenu(false)}>brooklinen</div>
-                        <div>cart</div>
+
+                        <div className="pt-8 cursor-pointer z-[999] font-mantramanav">
+                            <MenuDropdown
+                                menuItems={categoryItems}
+                                selectedMenuItem={handleSlectedMenuItem}
+                            />
+                            <LinkDropdown
+                                links={navItems}
+                                handleCloseMenu={handleCloseMenu}
+                            />
+                        </div>
                     </div>
-                    <div className="pt-8 cursor-pointer z-[999] font-mantramanav">
-                        <MenuDropdown menuItems={categoryItems} selectedMenuItem={handleSlectedMenuItem} />
-                        <LinkDropdown links={navItems} handleCloseMenu={() => handleCloseMenu} />
 
+                    {/* Mobile Submenu Panel */}
+                    <div
+                        className={`
+                  fixed left-0 top-0 md:pl-32 md:pr-48 pl-24 pr-16 pt-8 
+                  border-2 border-r-[#273455] w-[95%] h-screen bg-[#FCFAF8] z-40 
+                  duration-500 ease-in-out
+                  ${isMobile && openMenu && selectedCategory !== ''
+                                ? 'translate-x-0 opacity-100'
+                                : '-translate-x-full opacity-0'
+                            }
+                `}
+                    >
+                        <MobileSubMenu
+                            label={selectedCategory}
+                            submenuItems={subCollection}
+                            otherCollection={otherCollection}
+                            backButtonSelected={handleSubMenuBackButton}
+                            closeMenu={handleCloseMenu}
+                        />
                     </div>
                 </div>
-                {/* ) : (isMobile && openMenu && selectedCategory) && */}
-                <div className={`fixed left-0 top-0 md:pl-32 md:pr-48 pl-24 pr-16 pt-8 border-2 border-r-[#273455] w-[95%] h-screen bg-[#FCFAF8] z-40 duration-500 ease-in-out ${isMobile && openMenu && selectedCategory !== ''
-                    ? 'translate-x-0 opacity-100'
-                    : '-translate-x-full opacity-0'
-                    }`}>
-                    <MobileSubMenu label={selectedCategory} submenuItems={subCollection} otherCollection={otherCollection} backButtonSelected={handleSubMenuBackButton} closeMenu={handleCloseMenu} />
+
+                {/* Logo */}
+                <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>
+                    brooklinen
+                </Link>
+
+                {/* Overlay and Icons */}
+                <div className={`${openMenu ? "fixed inset-0 z-50 bg-[#4C4A72] bg-opacity-30" : ""}`}>
+                    <div className="flex flex-row gap-6">
+                        <Image
+                            src="/notification.svg"
+                            alt='Notifications'
+                            width={25}
+                            height={25}
+                            className='cursor-pointer'
+                            priority
+                        />
+                        <Image
+                            src="/search.svg"
+                            alt="Search"
+                            width={18}
+                            height={18}
+                            className='cursor-pointer'
+                            onClick={handleSearchIconClick}
+                            priority
+                        />
+                        <Image
+                            src="/cart.svg"
+                            alt="Cart"
+                            width={14}
+                            height={18}
+                            className='cursor-pointer'
+                            onClick={handleCartClick}
+                            priority
+                        />
+                    </div>
                 </div>
 
+                <CartModal
+                    isOpen={cartModalOpen}
+                    onClose={() => setCartModalOpen(false)}
+                />
+            </>
+        ) : (
+            <div className='items-center justify-between w-full z-50' ref={searchModalRef}>
+                <SearchBar onClose={handleCloseSearchBar} isOpen={openSearchBar} />
             </div>
-            <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>brooklinen</Link>
-            <div className={`${openMenu ? "fixed inset-0 z-50 bg-[#4C4A72] bg-opacity-30" : ""}`}>
-                <div className={`flex flex-row gap-6`}>
-                    <Image src="/notification.svg" alt='Notifications' width={25} height={25} className='cursor-pointer' priority />
-                    <Image src="/search.svg" alt="Search" width={18} height={18} className='cursor-pointer' onClick={handleSearchIconClick} priority />
-                    <Image src="/cart.svg" alt="Cart" width={14} height={18} className='cursor-pointer' onClick={handleCartClick} priority />
-                </div>
-            </div>
+        )}
+    </>
+    );
+};
 
-            <CartModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} />
-
-        </>) : <div className='items-center justify-between w-full z-50' ref={searchModalRef}>
-        <SearchBar closeSearchBar={handleCloseSearchBar} />
-
-    </div>
-
-
-    )
-}
-
-
-
-export default MobileNavMenu
+export default MobileNavMenu;
