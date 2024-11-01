@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import SearchBar from './SearchBar';
 import { useRouter } from 'next/navigation';
 import CartModal from './CartModal';
-import { useSearchBarStore } from "../store/searchBarStore";
+import { useSearchBarStore } from "../../store/searchBarStore";
 import useClickOutside from '@/hooks/useClickOutside';
 import BottomModal from './BottomModal';
 import BottmoModalMessage from './BottmoModalMessage';
@@ -64,9 +64,10 @@ function DesktopNavMenu() {
         setIsProfileOpen(() => !isProfileOpen)
     }
 
-    // useClickOutside([cartModalRef, cartIconRef], () => setCartModalOpen(false));
-    useClickOutside([profileModalRef, profileIconRef], () => setIsProfileOpen(false));
-    // useClickOutside([searchModalRef], () => toggleOpenSearchBar(false));
+    useClickOutside([profileModalRef, profileIconRef], () => {
+        console.log('Profile modal clicked');
+        setIsProfileOpen(false)
+    });
 
 
     const handleMouseEnter = (category: string) => {
@@ -95,13 +96,13 @@ function DesktopNavMenu() {
         <>
             {!openSearchBar ? (
                 <div
-                    className='relative flex flex-row items-center justify-between w-full'
+                    className='relative flex flex-row items-center justify-between w-full font-geograph'
                     onMouseLeave={handleMouseLeave}
                 >
                     {/* Logo */}
                     <div>
-                        <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>
-                            brooklinen
+                        <Link href="/" className='text-2xl tracking-wide font-geograph'>
+                            My Home Theory
                         </Link>
                     </div>
 
@@ -111,7 +112,7 @@ function DesktopNavMenu() {
                             {categoryItems.map((item, index) => (
                                 <li
                                     key={index}
-                                    className="flex items-center justify-center lg:p-4 p-2 hover:font-bold hover:underline underline-offset-8 cursor-pointer"
+                                    className="flex items-center justify-center tablet:p-4 p-2 hover:font-bold hover:underline underline-offset-8 cursor-pointer"
                                     onMouseEnter={() => handleMouseEnter(item.label)}
                                 >
                                     <span className="transition-all duration-300">
@@ -170,8 +171,8 @@ function DesktopNavMenu() {
                             ref={profileIconRef}
                             src="/account.svg"
                             alt="Account"
-                            width={16}
-                            height={18}
+                            width={20}
+                            height={20}
                             className='cursor-pointer hidden lg:inline-block'
                             onClick={handleProfileClick}
                             priority
@@ -189,7 +190,7 @@ function DesktopNavMenu() {
                                 onClick={handleCartClick}
                                 priority
                             />
-                            <div className='absolute -top-1.5 -right-4 w-3.5 h-3.5 rounded-full bg-[#273455] flex items-center text-white text-xs font-yantramanav justify-center'>
+                            <div className='absolute -top-1.5 -right-4 w-3.5 h-3.5 rounded-full bg-[#273455] flex items-center text-white text-xs font-geograph justify-center'>
                                 2
                             </div>
                             <div ref={cartModalRef}>

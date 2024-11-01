@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react'
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import CloseButton from "../../public/close-button.svg"
+import CloseButton from "../../../public/close-button.svg"
 
 interface BottomModalProps {
     isOpen: boolean;
@@ -40,7 +40,7 @@ const BottomModal: React.FC<BottomModalProps> = ({ isOpen, onClose, children }) 
 
     return (
         <div className={`fixed inset-0 z-50 flex items-end justify-center bg-black transition-opacity duration-500 px-4
-            ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}>
+            ${isAnimating ? 'bg-opacity-30 no-doc-scroll' : 'bg-opacity-0'}`}>
             <div
                 onClick={onClose}
                 className="absolute inset-0"

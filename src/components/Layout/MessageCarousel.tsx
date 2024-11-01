@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import LeftCaret from "../../public/left-caret.svg";
-import RightCaret from "../../public/right-caret.svg";
+import LeftCaret from "../../../public/left-caret.svg";
+import RightCaret from "../../../public/right-caret.svg";
 
 interface MessageCarouselProps {
     messages: string[];
@@ -78,7 +77,7 @@ const MessageCarousel = ({
     };
 
     return (
-        <div className="w-full mx-auto font-yantramanav">
+        <div className="w-full mx-auto font-geograph">
             <div className="relative overflow-hidden shadow-lg w-full tablet:h-10 h-[60px] bg-[#273455] items-center justify-center text-center">
 
                 {/* Slides */}
@@ -96,12 +95,12 @@ const MessageCarousel = ({
                 ))}
 
                 {/* Navigation buttons */}
-                <div className="absolute w-8 h-8 left-16 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
+                <div className="absolute w-8 h-8 left-12 tablet:left-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
                     <LeftCaret color='white' className="stroke-white" style={{ transform: 'translateX(-2px)' }}
                     />
                 </div>
 
-                <div className="absolute w-8 h-8 right-16 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
+                <div className="absolute w-8 h-8 right-12 tablet:right-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
                     <RightCaret color='white' className="stroke-white" style={{ transform: 'translateX(2px)' }} />
                 </div>
             </div>

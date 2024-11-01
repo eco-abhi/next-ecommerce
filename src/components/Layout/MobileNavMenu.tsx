@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { TbMenu } from "react-icons/tb";
-import { IoCloseSharp } from "react-icons/io5";
+import CloseButton from "../../../public/close-button.svg";
 import MenuDropdown from "./MenuDropdown";
 import MobileSubMenu from "./MobileSubMenu";
 import LinkDropdown from "./LinkDropdown";
-import { useNavLinkStore } from "../store/navLinksStore";
+import { useNavLinkStore } from "../../store/navLinksStore";
 import { useSaleCategoryStore } from "@/store/saleCategoryStore";
 import useClickOutside from "@/hooks/useClickOutside";
 import { useRef } from "react";
-import { useSearchBarStore } from "../store/searchBarStore";
+import { useSearchBarStore } from "../../store/searchBarStore";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from './SearchBar';
@@ -90,7 +90,7 @@ function MobileNavMenu() {
     useEffect(() => {
         // Function to check screen size and trigger button click
         const handleResize = () => {
-            if (window.innerWidth <= 900) {
+            if (window.innerWidth <= 850) {
                 // Mobile screen size (<= 768px)
                 if (!isMobile) {
                     setIsMobile(true);
@@ -120,6 +120,11 @@ function MobileNavMenu() {
 
     }, [isMobile, toggleOpenSearchBar]);
 
+    useClickOutside([mobileNavMenuRef], () => {
+        setOpenMenu(false);
+    });
+
+
 
     return (<>
         {!openSearchBar ? (
@@ -129,15 +134,15 @@ function MobileNavMenu() {
                     className={`bg-[#FCFAF8] z-[50] ${hideMenuButton ? "hidden" : ""}`}
                 >
                     <TbMenu
-                        className="cursor-pointer w-[25px] h-[25px]"
+                        className={`cursor-pointer w-[25px] h-[25px] ${openMenu ? 'hidden' : ''}`}
                         onClick={() => setOpenMenu((prev) => !prev)}
                     />
 
                     {/* Mobile Menu Panel */}
                     <div
                         className={`
-                  fixed md:pl-32 md:pr-48 pl-24 pr-16 left-0 top-0 pt-8 
-                  border-2 border-r-[#273455] bg-[#FCFAF8] w-[95%] h-screen z-40 
+                  fixed lg:pl-32 lg:pr-48 pl-24 pr-16 left-0 top-0 pt-8 
+                  border-2 border-r-[#273455] bg-[#FCFAF8] w-full h-screen z-40
                   duration-500 ease-in-out
                   ${isMobile && openMenu && !selectedCategory
                                 ? 'translate-x-0 opacity-100'
@@ -145,23 +150,25 @@ function MobileNavMenu() {
                             }
                 `}
                     >
-                        <div className="flex flex-row justify-between items-center w-full">
+                        <div className="flex flex-row justify-between items-center w-full p-2">
                             <div>
-                                <IoCloseSharp
-                                    className="cursor-pointer w-[25px] h-[25px]"
+                                <button
                                     onClick={() => setOpenMenu(false)}
-                                />
+                                    className="hover:bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer text-gray-900"
+                                >
+                                    <CloseButton className="h-6 w-6" />
+                                </button>
                             </div>
                             <div
                                 className="font-josefin_sans text-lg text-bold cursor-pointer text-center"
                                 onClick={() => setOpenMenu(false)}
                             >
-                                brooklinen
+                                My Home Theory
                             </div>
                             <div>cart</div>
                         </div>
 
-                        <div className="pt-8 cursor-pointer z-[999] font-mantramanav">
+                        <div className="pt-8 px-6 cursor-pointer z-[503] font-georgia">
                             <MenuDropdown
                                 menuItems={categoryItems}
                                 selectedMenuItem={handleSlectedMenuItem}
@@ -177,7 +184,7 @@ function MobileNavMenu() {
                     <div
                         className={`
                   fixed left-0 top-0 md:pl-32 md:pr-48 pl-24 pr-16 pt-8 
-                  border-2 border-r-[#273455] w-[95%] h-screen bg-[#FCFAF8] z-40 
+                  border-2 border-r-[#273455] w-full bg-[#FCFAF8] z-40 h-full
                   duration-500 ease-in-out
                   ${isMobile && openMenu && selectedCategory !== ''
                                 ? 'translate-x-0 opacity-100'
@@ -197,11 +204,11 @@ function MobileNavMenu() {
 
                 {/* Logo */}
                 <Link href="/" className='text-2xl tracking-wide font-josefin_sans'>
-                    brooklinen
+                    My Home Theory
                 </Link>
 
                 {/* Overlay and Icons */}
-                <div className={`${openMenu ? "fixed inset-0 z-50 bg-[#4C4A72] bg-opacity-30" : ""}`}>
+                <div className={`${openMenu ? "fixed inset-0 z-10 bg-[#4C4A72] bg-opacity-30 no-doc-scroll" : ""}`}>
                     <div className="flex flex-row gap-6">
                         <Image
                             src="/notification.svg"

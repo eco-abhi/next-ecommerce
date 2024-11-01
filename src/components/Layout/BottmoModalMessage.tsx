@@ -64,7 +64,7 @@ function BottmoModalMessage() {
 
                 {/* Privacy notice */}
                 <p className="text-sm text-gray-500 mt-4">
-                    Please keep me up to date with Brooklinen news and offers by email. I can unsubscribe at any time. I have read the Brooklinen{' '}
+                    Please keep me up to date with My Home Theory news and offers by email. I can unsubscribe at any time. I have read the My Home Theory{' '}
                     <a href="#" className="underline hover:text-gray-700">
                         Privacy Policy
                     </a>

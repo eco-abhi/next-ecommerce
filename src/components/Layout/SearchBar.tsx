@@ -3,6 +3,7 @@ import { useEffect, useCallback, useState, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchBarStore } from "@/store/searchBarStore";
+import CloseButton from "../../../public/close-button.svg";
 
 interface SearchBarProps {
     isOpen: boolean;
@@ -13,6 +14,7 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
     const [isAnimating, setIsAnimating] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
     const { searchBarInputText, setSearchBarInputText } = useSearchBarStore();
+    const searchContainerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +47,7 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Enter') handleSearchSubmit();
-            if (e.key === 'Escape') onClose();
+            if (e.key === 'Escape') { setSearchBarInputText(''); onClose() };
         };
 
         if (isOpen) document.addEventListener('keydown', handleKeyDown);
@@ -57,57 +59,46 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
 
     return (
         <>
-            <div className={`fixed inset-0 z-[501] bg-black transition-opacity ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}></div>
+            <div className={`fixed inset-0 z-40 bg-black transition-opacity ${isAnimating ? 'bg-opacity-30 no-doc-scroll' : 'bg-opacity-0'}`}></div>
 
+            <div onClick={handleSearchClose} className="absolute inset-0 z-40" />
 
-            <div
-                onClick={onClose}
-                className="absolute inset-0 z-[503]"
-
-            />
-            <div className="fixed tablet:top-10 top-12 left-0 right-0 z-[1000] flex justify-center h-[88px] bg-white" >
-                <div className="w-full max-w-xl font-yantramanav bg-white p-4 flex items-center justify-center">
+            <div ref={searchContainerRef} className="fixed tablet:top-10 top-12 left-0 right-0 z-50 flex justify-center h-[88px] bg-white">
+                <div className="w-full max-w-xl font-geograph bg-white p-4 flex items-center justify-center">
                     <div className="relative flex items-center w-full">
-
                         <Image
                             src="/search.svg"
                             alt="Search"
-                            width={20}
-                            height={20}
+                            width={24}
+                            height={24}
                             className="absolute left-3 h-5 w-5 text-gray-400"
                             priority
                         />
-
                         <input
                             autoFocus
                             name="search-name"
                             value={searchBarInputText}
                             onChange={handleInputChange}
                             type="text"
-                            placeholder="Search Brooklinen"
+                            placeholder="Search My Home Theory"
                             className="w-full py-2 pl-10 pr-10 rounded-lg outline-none font-light bg-white"
                         />
-
-                        <Image
-                            onClick={handleSearchClose}
-                            src="/close-button.svg"
-                            alt="Close"
-                            width={25}
-                            height={25}
-                            className="cursor-pointer"
-                            priority
-                        />
-
+                        <button
+                            onClick={onClose}
+                            className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                        >
+                            <CloseButton className="h-5 w-5" />
+                        </button>
                     </div>
 
                     {searchBarInputText.length > 2 && (
-                        <div className="absolute top-full left-0 right-0 mt-1 bg-[#FCFAF8] rounded-3xl shadow-lg border border-gray-200 overflow-hidden pb-4">
-                            <div className="border-t border-gray-100">
+                        <div className="absolute w-full max-w-xl right-0 flex justify-center top-20 left-1/2 transform -translate-x-1/2">
+                            <div className="bg-white rounded-b-3xl shadow-lg border-b-gray-200 overflow-hidden pb-4 w-full">
                                 <button
-                                    className="w-full p-3 text-blue-600 hover:bg-gray-50 font-medium text-left"
+                                    className="w-full p-3 text-blue-600 font-medium text-left"
                                     onClick={handleSearchSubmit}
                                 >
-                                    <span className="font-semibold text-[#04247D] hover:underline underline-offset-4 text-base font-yantramanav px-4">
+                                    <span className="font-semibold text-[#04247D] hover:underline underline-offset-4 text-base font-geograph px-4">
                                         View all search results for {searchBarInputText}
                                     </span>
                                 </button>
@@ -117,6 +108,7 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
                 </div>
             </div>
         </>
+
     );
 }
 

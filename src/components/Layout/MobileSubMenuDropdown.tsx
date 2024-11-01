@@ -10,10 +10,10 @@ const MobileSubMenuDropdown: React.FC<MobileSubMenuDropdownProps> = ({ subMenuIt
     }
 
     return (
-        <div className="pt-8">
+        <div className="pt-8 px-6">
             <ul className="space-y-2">
                 {subMenuItems.slice(0, 2).map((item, index) => (
-                    <Link onClick={handleLinkClick} href={item.href} key={item.label} className="flex justify-between items-center text-lg text-[#273455] font-normal border-b-[1px] border-[#DDDDDD] pb-3">
+                    <Link onClick={handleLinkClick} href={item.href} key={item.label} className="flex justify-between items-center text-lg text-[#273455] font-geograph font-normal border-b-[1px] border-[#DDDDDD] pb-3">
 
                         <div>
                             <span className="flex-1 pr-4">{item.label}</span> {/* Text part */}
@@ -26,7 +26,7 @@ const MobileSubMenuDropdown: React.FC<MobileSubMenuDropdownProps> = ({ subMenuIt
                 {otherCollection !== undefined && otherCollection.subCollection && (
                     <div
                         key={otherCollection.label}
-                        className="text-lg text-[#273455] font-normal border-b-[1px] border-[#DDDDDD] pb-3"
+                        className="text-lg text-[#273455] font-normal font-geograph border-b-[1px] border-[#DDDDDD] pb-3"
                     >
                         <div className="mb-2 text-left">
                             <span>{otherCollection.label}</span>
@@ -43,7 +43,7 @@ const MobileSubMenuDropdown: React.FC<MobileSubMenuDropdownProps> = ({ subMenuIt
                         onClick={handleLinkClick}
                         href={item.href}
                         key={item.label}
-                        className="flex justify-between items-center text-lg text-[#273455] font-normal border-b-[1px] border-[#DDDDDD] pb-3"
+                        className="flex justify-between items-center text-lg text-[#273455] font-geograph font-normal border-b-[1px] border-[#DDDDDD] pb-3"
                     >
                         <div>
                             <span className="flex-1 pr-4">{item.label}</span>

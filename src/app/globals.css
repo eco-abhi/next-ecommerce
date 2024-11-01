@@ -1,26 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Metamorphous&family=Yantramanav:wght@100;300;400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles */
-body {
-    @apply font-yantramanav;
-    /* Apply the default font, e.g., Roboto */
+@layer base {
+    @font-face {
+        font-family: 'Geograph';
+        font-weight: 400;
+        src: url(/fonts/geograph/geographwebregular.woff) format("woff");
+    }
 }
-
 
 @layer utilities {
     .link-underline {
         border-bottom-width: 0;
-        background-size: 0 1px;
-        background-position: 0 100%;
+        background-size: 0% 1px;
+        /* Start with zero width */
+        background-position: center 100%;
+        /* Center the line horizontally */
         background-repeat: no-repeat;
-        transition: all .5s ease;
-        text-underline-offset: .75rem;
-        color: #283455;
-        position: relative;
+        transition: background-size .5s ease;
+        padding-bottom: 0.2rem;
     }
 
     .link-underline-black {
@@ -29,7 +30,18 @@ body {
 
     .link-underline:hover {
         background-size: 100% 1px;
-        background-position: 0 100%;
+        /* Expand to full width on hover */
+        background-position: center 100%;
+        /* Keep it centered */
     }
 
+    :root:has(.no-doc-scroll) {
+        overflow: hidden;
+    }
+}
+
+/* Global styles */
+body {
+    font-family: 'Geograph', sans-serif;
+    /* Fallback to default sans-serif */
 }

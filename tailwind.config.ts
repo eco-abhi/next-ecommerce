@@ -26,10 +26,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        lato: ["Lato", "sans-serif"],
-        metamorphous: ["Metamorphous", "sans-serif"],
-        yantramanav: ["Yantramanav", "sans-serif"],
         josefin_sans: ["Josefin Sans", "sans-serif"],
+        geograph: ["Geograph", "sans-serif"],
       },
       keyframes: {
         'slide-up': {

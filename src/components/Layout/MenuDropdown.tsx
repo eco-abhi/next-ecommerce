@@ -29,7 +29,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ menuItems, selectedMenuItem
         <div className="">
             <ul className="space-y-2">
                 {menuItems.map((item) => (
-                    <li key={item.label} onClick={() => setSelectedItem(item.label)} className="flex justify-between items-center text-lg text-[#273455] font-bold border-b-[1px] border-[#DDDDDD] pb-3">
+                    <li key={item.label} onClick={() => setSelectedItem(item.label)} className="flex text-lg text-left text-[#273455] font-bold border-b-[1px] border-[#DDDDDD] pb-3">
 
                         <span className="flex-1">{item.label}</span> {/* Text part */}
 

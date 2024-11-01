@@ -10,7 +10,7 @@ function Navbar() {
     const { openSearchBar } = useSearchBarStore();
     return (
         <>
-            <div className={`h-[68px] md:h-[90px] px-4 md:px-8 lg:px-16 xl:px-40 ${openSearchBar ? "bg-white" : ""}`}>
+            <div className={`h-[68px] px-4 lg:px-16 xl:px-40 ${openSearchBar ? "bg-white" : ""}`}>
                 {/* Mobile */}
                 <div className='h-full justify-between text-center flex items-center tablet:hidden'>
                     <MobileNavMenu />

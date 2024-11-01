@@ -13,7 +13,7 @@ const LinkDropdown: React.FC<LinkDropdownProps> = ({ links, isSubMenu = false, h
             {links.map((item, index) => (
                 <ul
                     key={index}
-                    className={`${isSubMenu ? "text-left" : "mt-[10px]"} font-light text-base text-[#273455]`}
+                    className={`${isSubMenu ? "text-left" : "mt-[10px]"} font-light text-base text-[#273455] text-left`}
                 >
                     <li>
                         <Link href={item.href} className={`${isSubMenu ? "mb-3" : "mb-1"} font-display leading-tight inline-block text-left`} onClick={handleCloseMenu}>

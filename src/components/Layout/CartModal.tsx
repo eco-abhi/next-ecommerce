@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import CloseButton from '../../public/close-button.svg';
+import CloseButton from '../../../public/close-button.svg';
 
 interface SideModalProps {
     isOpen: boolean;
@@ -58,7 +58,7 @@ const cartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
 
     return (
         <div
-            className={`fixed inset-0 z-[500] flex justify-end bg-black transition-opacity duration-600
+            className={`fixed inset-0 z-[500] flex justify-end bg-black transition-opacity duration-600 no-doc-scroll
         ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}
         >
             <div

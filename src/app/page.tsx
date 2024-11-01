@@ -1,5 +1,4 @@
 import DesktopNavMenu from "@/components/DesktopNavMenu"
-import DesktopSubMenu from "@/components/DesktopSubMenu"
 
 const HomePage = () => {
   return (

@@ -1,6 +1,6 @@
 
 import MobileSubMenuDropdown from "./MobileSubMenuDropdown"
-import LeftCaret from "../../public/left-caret.svg";
+import LeftCaret from "../../../public/left-caret.svg";
 
 const MobileSubMenu: React.FC<MobileSubMenuProps> = ({ label, submenuItems, otherCollection, backButtonSelected, closeMenu }) => {
 
@@ -14,7 +14,7 @@ const MobileSubMenu: React.FC<MobileSubMenuProps> = ({ label, submenuItems, othe
 
     return (
         <>
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center bg-[#c3c3e1] bg-opacity-30 p-2 font-geograph">
                 <LeftCaret
                     alt="Go back"
                     className="cursor-pointer"

@@ -10,18 +10,15 @@ const DesktopSubMenu: React.FC<DesktopMenuDropdownProps> = ({ subMenuItems, othe
     }
 
     return (
-        <div className="flex flex-row gap-32 p-10 bg-[#FCFAF8] w-full justify-center font-josefin_sans">
+        <div className="flex flex-row gap-32 p-10 bg-[#FCFAF8] w-full justify-center font-geograph">
             {/* Left Column */}
             <div className="flex flex-col space-y-2">
-                {/* <h2 className="text-lg font-bold text-white">
-                    {"All Items"}
-                </h2> */}
                 <ul className="space-y-2">
                     <li>All items</li>
                     {subMenuItems.slice(0, 2).map((item, index) => (
                         <li key={item.label}>
                             <Link onClick={handleLinkClick} href={item.href} key={item.label}>
-                                <span className="flex-1 link link-underline link-underline-black">{item.label}</span> {/* Text part */}
+                                <span className="flex-1 link link-underline link-underline-black font-geograph">{item.label}</span> {/* Text part */}
                                 {item.tag && <Tag text={item.tag} />} {/* Conditionally render tag */}
                             </Link>
                         </li>
@@ -30,7 +27,7 @@ const DesktopSubMenu: React.FC<DesktopMenuDropdownProps> = ({ subMenuItems, othe
             </div>
 
             {/* Middle Column */}
-            <div className="flex flex-col space-y-2 border-l border-gray-300 pl-6">
+            <div className="flex flex-col space-y-2 border-l border-gray-300 pl-6 font-geograph">
                 <h2 className="text-lg font-bold">{otherCollection?.label}</h2>
                 <ul className="space-y-2">
                     {otherCollection !== undefined && otherCollection.subCollection && (
