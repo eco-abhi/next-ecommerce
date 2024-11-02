@@ -13,9 +13,9 @@ import { useRef } from "react";
 import { useSearchBarStore } from "../../store/searchBarStore";
 import Link from "next/link";
 import Image from "next/image";
-import SearchBar from './SearchBar';
+import SearchBar from "./SearchBar";
 import { useShoppingCartStore } from "@/store/shoppingCartStore";
-import CartModal from './CartModal';
+import CartModal from "./CartModal";
 
 function MobileNavMenu() {
 

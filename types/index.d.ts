@@ -3,6 +3,25 @@ declare type MenuItem = {
     href: Url;
 };
 
+declare interface CarouselItem {
+    _id: string;
+    dataCollectionId: string;
+    data: HeroItemData
+
+};
+
+declare type HeroItemData = {
+
+    title: string;
+    subtitle: string;
+    image: string
+
+}
+
+interface CarouselProps {
+    data: CarouselItem[];
+}
+
 declare interface MobileSubMenuDropdownProps {
     subMenuItems: CollectionItem[];
     closeMenu: (bool: boolean) => void;

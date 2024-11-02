@@ -10,7 +10,7 @@ import CartModal from './CartModal';
 import { useSearchBarStore } from "../../store/searchBarStore";
 import useClickOutside from '@/hooks/useClickOutside';
 import BottomModal from './BottomModal';
-import BottmoModalMessage from './BottmoModalMessage';
+import BottmoModalMessage from './BottomModalMessage';
 import { useShoppingCartStore } from '@/store/shoppingCartStore';
 import DesktopSubMenu from './DesktopSubMenu';
 import { useSaleCategoryStore } from "@/store/saleCategoryStore";
@@ -65,7 +65,6 @@ function DesktopNavMenu() {
     }
 
     useClickOutside([profileModalRef, profileIconRef], () => {
-        console.log('Profile modal clicked');
         setIsProfileOpen(false)
     });
 
@@ -92,12 +91,24 @@ function DesktopNavMenu() {
     }, [activeCategory])
 
 
+    // SetActiveCategory to null when the screen size is less than 850px
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 850) {
+                setActiveCategory(null)
+            }
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+
     return (
         <>
             {!openSearchBar ? (
                 <div
-                    className='relative flex flex-row items-center justify-between w-full font-geograph'
-                    onMouseLeave={handleMouseLeave}
+                    className='flex flex-row items-center justify-between w-full font-geograph'
                 >
                     {/* Logo */}
                     <div>
@@ -204,7 +215,7 @@ function DesktopNavMenu() {
 
                     {/* Submenu */}
                     {activeCategory && subCollection.length > 0 && (
-                        <div className='absolute top-full left-0 w-full'>
+                        <div className='absolute top-24 left-0 w-full bg-white shadow-lg z-30' onMouseLeave={handleMouseLeave}>
                             <DesktopSubMenu
                                 subMenuItems={subCollection}
                                 otherCollection={otherCollection}

@@ -95,12 +95,12 @@ const MessageCarousel = ({
                 ))}
 
                 {/* Navigation buttons */}
-                <div className="absolute w-8 h-8 left-12 tablet:left-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
+                <div className="absolute w-8 h-8 left-12 smaller:left-10 tablet:left-48 laptop:left-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
                     <LeftCaret color='white' className="stroke-white" style={{ transform: 'translateX(-2px)' }}
                     />
                 </div>
 
-                <div className="absolute w-8 h-8 right-12 tablet:right-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
+                <div className="absolute w-8 h-8 right-12 smaller:right-10 tablet:right-48 laptop:right-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
                     <RightCaret color='white' className="stroke-white" style={{ transform: 'translateX(2px)' }} />
                 </div>
             </div>

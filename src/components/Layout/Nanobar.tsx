@@ -1,7 +1,7 @@
 // Code for the Nanobar component
 'use client';
 import { useState, useEffect } from 'react'
-import MessageCarousel from './MessageCarousel';
+import MessageCarousel from './MessageCarousel'
 
 const Nanobar: React.FC<NanobarProps> = ({ messages }) => {
 

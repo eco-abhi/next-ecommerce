@@ -1,5 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'static.wixstatic.com',
+                pathname: '/media/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'wixstatic.com',
+                pathname: '/media/**',
+            }
+        ],
+    },
     webpack(config) {
         // Grab the existing rule that handles SVG imports
         const fileLoaderRule = config.module.rules.find((rule) =>

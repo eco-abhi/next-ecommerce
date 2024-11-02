@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/Layout/Navbar";
-import Footer from "../components/Layout/Footer";
-import Nanobar from "@/components/Layout/Nanobar";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import Nanobar from "@/components/layout/Nanobar";
+import { WixClientContextProvider } from "../context/wixContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " bg-[#FCFAF8]"}>
-        <Nanobar messages={messages} />
-        <Navbar />
-        {children}
-        <Footer />
+        <WixClientContextProvider>
+          <Nanobar messages={messages} />
+          <Navbar />
+          {children}
+          <Footer />
+        </WixClientContextProvider>
       </body>
     </html>
   );
