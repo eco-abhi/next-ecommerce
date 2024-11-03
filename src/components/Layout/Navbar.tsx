@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MobileNavMenu from './MobileNavMenu';
 import DesktopNavMenu from './DesktopNavMenu';
 import { useSearchBarStore } from '@/store/searchBarStore';
 
 function Navbar() {
     const { openSearchBar } = useSearchBarStore();
+
 
     return (
         <div className={`h-[68px] px-4 lg:px-16 xl:px-40 ${openSearchBar ? "bg-white" : ""}`}>

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import Nanobar from "@/components/layout/Nanobar";
 import { WixClientContextProvider } from "../context/wixContext";
+import MergedNavbar from "@/components/layout/MergedNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,8 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + " bg-[#FCFAF8]"}>
         <WixClientContextProvider>
-          <Nanobar messages={messages} />
-          <Navbar />
+          <MergedNavbar messages={messages} />
           {children}
           <Footer />
         </WixClientContextProvider>

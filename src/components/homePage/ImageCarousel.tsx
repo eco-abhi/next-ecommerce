@@ -24,17 +24,6 @@ const ImageCarousel: React.FC<CarouselProps> = ({ data }) => {
         return () => clearInterval(interval);
     }, [data.length]);
 
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === data.length - 1 ? 0 : prevIndex + 1
-        );
-    };
-
-    const handlePrev = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? data.length - 1 : prevIndex - 1
-        );
-    };
 
     if (isLoading || data.length === 0) {
         return <ImageCarouselSkeleton />;
@@ -59,20 +48,32 @@ const ImageCarousel: React.FC<CarouselProps> = ({ data }) => {
                         onLoadingComplete={() => setIsLoading(false)}
                     />
                     <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-4 md:p-8 font-josefin_sans">
-                        <h2 className="text-2xl md:text-4xl lg:text-5xl text-white font-bold">
-                            {item.data.title}
-                        </h2>
-                        {item.data.subtitle && (
-                            <p className="text-md md:text-lg lg:text-xl text-white mt-2">
-                                {item.data.subtitle}
-                            </p>
-                        )}
+                        <div>
+                            <h2 className="text-2xl md:text-4xl lg:text-5xl text-white font-bold">
+                                {item.data.title}
+                            </h2>
+                            {item.data.subtitle && (
+                                <p className="text-md md:text-lg lg:text-xl text-white mt-2">
+                                    {item.data.subtitle}
+                                </p>
+                            )}
+                        </div>
+                        <button
+                            onClick={() => console.log("Button clicked")}
+                            className="
+                            absolute bottom-1/3 left-1/2 -translate-x-1/2
+                            px-10 py-4 
+                            text-black font-semibold 
+                            bg-white 
+                            border-t border-b border-gray-300 
+                            hover:bg-gray-200 hover:shadow-lg
+                            transition-transform transform hover:scale-105 duration-300
+                            shadow-md
+                        "
+                        >
+                            SHOP NOW
+                        </button>
                     </div>
-                    <button
-                        onClick={handlePrev}
-                        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
-                        aria-label="Previous slide"
-                    ></button>
                 </div>
             ))}
 
