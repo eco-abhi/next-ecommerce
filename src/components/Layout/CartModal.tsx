@@ -72,10 +72,6 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                         </button>
                     </div>
                 </div>
-                {/* Pattern Background as Left Border */}
-                <div className="absolute left-0 top-0 h-full w-10">
-                    <CartPatternDesign />
-                </div>
                 <div className="px-6 py-4">
                     {/* {children} */}
                 </div>

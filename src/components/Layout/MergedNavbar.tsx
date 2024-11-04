@@ -5,6 +5,7 @@ import MessageCarousel from './MessageCarousel';
 import MobileNavMenu from './MobileNavMenu';
 import DesktopNavMenu from './DesktopNavMenu';
 import useScrollDownVisibility from '@/hooks/useScrollDownVisibility';
+import NavbarPatternDesign from '../designPatterns/NavBarPatternDesign';
 
 interface MergedNavbarProps {
     messages: string[];
@@ -39,6 +40,7 @@ const MergedNavbar: React.FC<MergedNavbarProps> = ({ messages }) => {
                 <div className="hidden tablet:flex justify-center items-center h-full w-full">
                     <DesktopNavMenu />
                 </div>
+
             </div>
         </div>
     );
