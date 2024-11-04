@@ -1,16 +1,14 @@
+'use client';
+
 import React, { useState, useEffect } from "react";
 import Image from 'next/image';
 import ImageCarouselSkeleton from "./ImageCarouselSkeleton";
+import useLoadingStatus from "@/hooks/useLoadingStatus";
 
 const ImageCarousel: React.FC<CarouselProps> = ({ data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if (data.length > 0) {
-            setIsLoading(false);
-        }
-    }, [data]);
+    const [isLoading, setIsLoading] = useLoadingStatus(data, 'array');
 
     useEffect(() => {
         if (data.length <= 1) return; // Don't set interval if only one or no images
@@ -30,7 +28,7 @@ const ImageCarousel: React.FC<CarouselProps> = ({ data }) => {
     }
 
     return (
-        <div className="relative w-full h-[400px] md:h-[600px] lg:h-[800px] overflow-hidden z-auto">
+        <div className="relative w-full h-[400px] tablet:h-[600px] lg:h-[800px] overflow-hidden">
             {data.map((item, index) => (
                 <div
                     key={index}
@@ -39,7 +37,7 @@ const ImageCarousel: React.FC<CarouselProps> = ({ data }) => {
                     aria-hidden={index !== currentIndex}
                 >
                     <Image
-                        src={item.data.image}
+                        src={item.data.image!}
                         alt={item.data.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"

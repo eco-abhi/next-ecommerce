@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import CloseButton from '../../../public/close-button.svg';
+import useEscapeKey from '@/hooks/useEscapeKey';
+import useAnimatedRender from '@/hooks/useAnimatedRender';
+import CartPatternDesign from '../designPatterns/CartPatternDesign';
 
 interface SideModalProps {
     isOpen: boolean;
@@ -11,9 +14,8 @@ interface SideModalProps {
     itemCount?: number;
 }
 
-const cartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
-    const [isAnimating, setIsAnimating] = useState(false);
-    const [shouldRender, setShouldRender] = useState(false);
+const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
+    const { shouldRender, isAnimating } = useAnimatedRender(isOpen, 1000);
     const [screenWidth, setScreenWidth] = useState(0);
 
 
@@ -30,28 +32,10 @@ const cartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
         };
     }, []);
 
-    useEffect(() => {
-        if (isOpen) {
-            setShouldRender(true);
-            setTimeout(() => {
-                setIsAnimating(true);
-            }, 10);
-        } else {
-            setIsAnimating(false);
-            const timer = setTimeout(() => {
-                setShouldRender(false);
-            }, 600);
-            return () => clearTimeout(timer);
-        }
-    }, [isOpen]);
 
-    useEffect(() => {
-        const handleEsc = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') onClose();
-        };
-        if (isOpen) document.addEventListener('keydown', handleEsc);
-        return () => document.removeEventListener('keydown', handleEsc);
-    }, [isOpen, onClose]);
+
+
+    useEscapeKey(onClose, isOpen);
 
     if (!shouldRender) return null;
 
@@ -88,13 +72,17 @@ const cartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                         </button>
                     </div>
                 </div>
-
+                {/* Pattern Background as Left Border */}
+                <div className="absolute left-0 top-0 h-full w-10">
+                    <CartPatternDesign />
+                </div>
                 <div className="px-6 py-4">
                     {/* {children} */}
                 </div>
+
             </div>
         </div>
     );
 };
 
-export default cartModal;
+export default CartModal;

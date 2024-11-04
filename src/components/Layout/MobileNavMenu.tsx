@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { TbMenu } from "react-icons/tb";
 import CloseButton from "../../../public/close-button.svg";
 import MenuDropdown from "./MenuDropdown";
@@ -36,31 +36,17 @@ function MobileNavMenu() {
     const mobileNavMenuRef = useRef(null);
     const searchModalRef = useRef(null);
 
-    const handleSlectedMenuItem = (label: string) => {
-        setSelectedCategory(label)
-    }
+    const handleSelectedMenuItem = useCallback((label: string) => setSelectedCategory(label), []);
 
-    const handleSubMenuBackButton = (bool: boolean) => {
-        setSelectedCategory('')
+    const handleSubMenuBackButton = useCallback(() => setSelectedCategory(''), []);
 
-    }
+    const handleCartClick = useCallback((prev: boolean) => setCartModalOpen(!prev), []);
 
-    const handleCartClick = () => {
-        setCartModalOpen(!cartModalOpen)
-    }
+    const handleCloseMenu = useCallback(() => setOpenMenu(false), []);
 
-    const handleCloseMenu = () => {
-        setOpenMenu(false)
+    const handleCloseSearchBar = useCallback(() => toggleOpenSearchBar(false), []);
 
-    }
-
-    const handleCloseSearchBar = () => {
-        toggleOpenSearchBar(false)
-    }
-
-    const handleSearchIconClick = () => {
-        toggleOpenSearchBar(true)
-    }
+    const handleSearchIconClick = useCallback(() => toggleOpenSearchBar(true), []);
 
     useEffect(() => {
         if (selectedCategory) {
@@ -120,6 +106,9 @@ function MobileNavMenu() {
 
     }, [isMobile, toggleOpenSearchBar]);
 
+
+
+
     useClickOutside([mobileNavMenuRef], () => {
         setOpenMenu(false);
     });
@@ -131,7 +120,7 @@ function MobileNavMenu() {
             <>
                 <div
                     ref={mobileNavMenuRef}
-                    className={`bg-[#FCFAF8] z-[50] ${hideMenuButton ? "hidden" : ""}`}
+                    className={`z-[50] ${hideMenuButton ? "hidden" : ""}`}
                 >
                     <TbMenu
                         className={`cursor-pointer w-[25px] h-[25px] ${openMenu ? 'hidden' : ''}`}
@@ -154,7 +143,7 @@ function MobileNavMenu() {
                             <div>
                                 <button
                                     onClick={() => setOpenMenu(false)}
-                                    className="hover:bg-gray-200 rounded-full transition-colors duration-200 cursor-pointer text-gray-900"
+                                    className="bg-inherit rounded-full transition-colors duration-200 cursor-pointer text-gray-900"
                                 >
                                     <CloseButton className="h-6 w-6" />
                                 </button>
@@ -171,7 +160,7 @@ function MobileNavMenu() {
                         <div className="pt-8 px-6 cursor-pointer z-[503] font-georgia">
                             <MenuDropdown
                                 menuItems={categoryItems}
-                                selectedMenuItem={handleSlectedMenuItem}
+                                selectedMenuItem={handleSelectedMenuItem}
                             />
                             <LinkDropdown
                                 links={navItems}

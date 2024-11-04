@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchBarStore } from "@/store/searchBarStore";
 import CloseButton from "../../../public/close-button.svg";
+import useEscapeKey from "@/hooks/useEscapeKey";
+import useEnterKey from "@/hooks/useEnterKey";
 
 interface SearchBarProps {
     isOpen: boolean;
@@ -44,15 +46,9 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
         }
     }, [isOpen]);
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Enter') handleSearchSubmit();
-            if (e.key === 'Escape') { setSearchBarInputText(''); onClose() };
-        };
 
-        if (isOpen) document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, handleSearchSubmit, onClose]);
+    useEscapeKey(handleSearchClose, isOpen);
+    useEnterKey(handleSearchSubmit, isOpen);
 
 
     if (!shouldRender) return null;
@@ -63,7 +59,7 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
 
             <div onClick={handleSearchClose} className="absolute inset-0 z-40" />
 
-            <div ref={searchContainerRef} className="fixed tablet:top-10 top-12 left-0 right-0 z-50 flex justify-center h-[88px] bg-white">
+            <div ref={searchContainerRef} className={`fixed ${window.scrollY < 4 ? 'top-10' : 'top-0'} left-0 right-0 z-50 flex justify-center h-[88px] bg-white`}>
                 <div className="w-full max-w-xl font-geograph bg-white p-4 flex items-center justify-center">
                     <div className="relative flex items-center w-full">
                         <Image

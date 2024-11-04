@@ -4,31 +4,21 @@ import React, { useState, useEffect } from 'react';
 import MessageCarousel from './MessageCarousel';
 import MobileNavMenu from './MobileNavMenu';
 import DesktopNavMenu from './DesktopNavMenu';
-import { useSearchBarStore } from '@/store/searchBarStore';
+import useScrollDownVisibility from '@/hooks/useScrollDownVisibility';
 
 interface MergedNavbarProps {
     messages: string[];
 }
 
 const MergedNavbar: React.FC<MergedNavbarProps> = ({ messages }) => {
-    const [isNanobarVisible, setIsNanobarVisible] = useState(true);
-    const { openSearchBar } = useSearchBarStore();
+    const isScrolled = useScrollDownVisibility(15);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsNanobarVisible(window.scrollY < 4);
-        };
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
     return (
         <div className="relative">
             {/* Nanobar */}
-            <div
-
-            >
+            <div>
                 <MessageCarousel messages={messages} autoPlayInterval={5000} />
             </div>
 
@@ -36,9 +26,8 @@ const MergedNavbar: React.FC<MergedNavbarProps> = ({ messages }) => {
             <div
                 className={`
         h-[68px] px-4 lg:px-16 xl:px-40 
-        transition-all duration-1000 ease-in-out
-        ${openSearchBar ? 'bg-white' : ''}
-        ${!isNanobarVisible ? 'fixed top-0 w-full z-50 bg-[#ECEAE8] shadow-md' : ''}
+     duration-[900ms] transition-all
+        ${!isScrolled ? 'fixed top-0 w-full z-50 bg-white shadow-lg' : 'bg-transparent'}
       `}
             >
                 {/* Mobile */}

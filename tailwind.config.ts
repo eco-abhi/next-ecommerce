@@ -43,6 +43,7 @@ const config: Config = {
         'slide-up': 'slide-up 0.6s ease-in-out forwards',
         'slide-down': 'slide-down 0.6s ease-in-out forwards',
       },
+
     },
   },
   plugins: [],

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react'
+import React, { use } from 'react'
 import Link from 'next/link'
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
@@ -14,6 +14,7 @@ import BottmoModalMessage from './BottomModalMessage';
 import { useShoppingCartStore } from '@/store/shoppingCartStore';
 import DesktopSubMenu from './DesktopSubMenu';
 import { useSaleCategoryStore } from "@/store/saleCategoryStore";
+import useResetOnResize from '@/hooks/useResetOnSize';
 
 
 function DesktopNavMenu() {
@@ -39,21 +40,13 @@ function DesktopNavMenu() {
     const { categoryItems } = useSaleCategoryStore()
     const router = useRouter()
 
-    const handleSearchIconClick = () => {
-        toggleOpenSearchBar(true)
-    }
 
-    const handleCloseSearchBar = () => {
-        toggleOpenSearchBar(false)
-    }
+    // Usage with typed setters wrapped in arrow functions
+    const handleSearchIconClick = () => toggleOpenSearchBar(true);
+    const handleCloseSearchBar = () => toggleOpenSearchBar(false);
+    const handleNotificationClick = () => setIsNotificationOpen(true);
+    const handleCartClick = () => setCartModalOpen(true);
 
-    const handleNotificationClick = () => {
-        setIsNotificationOpen(true)
-    }
-
-    const handleCartClick = () => {
-        setCartModalOpen(true)
-    }
 
     // Temporary function
     const isLoggedIn = false
@@ -69,13 +62,10 @@ function DesktopNavMenu() {
     });
 
 
-    const handleMouseEnter = (category: string) => {
-        setActiveCategory(category)
-    };
+    const handleMouseEnter = (category: string) => setActiveCategory(category);
 
-    const handleMouseLeave = () => {
-        setActiveCategory(null);
-    };
+    const handleMouseLeave = () => setActiveCategory(null);
+
 
     useEffect(() => {
         if (activeCategory) {
@@ -92,16 +82,12 @@ function DesktopNavMenu() {
 
 
     // SetActiveCategory to null when the screen size is less than 850px
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth <= 850) {
-                setActiveCategory(null)
-            }
+    useResetOnResize([
+        {
+            callback: () => setActiveCategory(null),
+            dependencies: [activeCategory]
         }
-
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
+    ], 850)
 
 
     return (
@@ -169,7 +155,7 @@ function DesktopNavMenu() {
                             {isProfileOpen && (
                                 <div
                                     ref={profileModalRef}
-                                    className='absolute bg-[#FCFAF8] shadow-lg p-4 rounded-lg top-12 left-0 z-20'
+                                    className='absolute bg-white shadow-lg p-4 rounded-lg top-12 left-0 z-20'
                                 >
                                     <Link href='/'>Profile</Link>
                                     <div className='mt-2 cursor-pointer'>Logout</div>

@@ -10,7 +10,6 @@ function useClickOutside(refs: React.RefObject<HTMLElement>[], callback: () => v
 
         // Check if the click was outside all valid refs
         if (validRefs.every(ref => !ref.current?.contains(event.target as Node))) {
-            console.log('Click outside detected', callback);
             callback();
         }
     };

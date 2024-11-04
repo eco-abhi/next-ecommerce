@@ -1,8 +1,7 @@
-import React, { CSSProperties } from 'react'
-
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React from 'react'
 import CloseButton from "../../../public/close-button.svg"
+import useEscapeKey from '@/hooks/useEscapeKey';
+import useAnimatedRender from '@/hooks/useAnimatedRender';
 
 interface BottomModalProps {
     isOpen: boolean;
@@ -11,30 +10,10 @@ interface BottomModalProps {
 }
 
 const BottomModal: React.FC<BottomModalProps> = ({ isOpen, onClose, children }) => {
-    const [isAnimating, setIsAnimating] = useState(false);
-    const [shouldRender, setShouldRender] = useState(false);
 
-    useEffect(() => {
-        if (isOpen) {
-            setShouldRender(true);
-            setIsAnimating(true);
-        } else {
-            setIsAnimating(false);
-            // Wait for animation to finish before removing from DOM
-            const timer = setTimeout(() => {
-                setShouldRender(false);
-            }, 600); // Match this with your animation duration
-            return () => clearTimeout(timer);
-        }
-    }, [isOpen]);
+    const { shouldRender, isAnimating } = useAnimatedRender(isOpen, 600);
 
-    useEffect(() => {
-        const handleEsc = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') onClose();
-        };
-        if (isOpen) document.addEventListener('keydown', handleEsc);
-        return () => document.removeEventListener('keydown', handleEsc);
-    }, [isOpen, onClose]);
+    useEscapeKey(onClose, isOpen);
 
     if (!shouldRender) return null;
 

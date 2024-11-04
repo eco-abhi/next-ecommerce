@@ -13,6 +13,21 @@
 }
 
 @layer utilities {
+
+    .bg-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23273455' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(45 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(90 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(135 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(180 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(225 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(270 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' transform='rotate(315 100 100)' /%3E%3Cpath d='M100,10 L130,40 Q140,50 130,60 L100,90 L70,60 Q60,50 70,40 Z' /%3E%3C/g%3E%3C/svg%3E");
+        background-repeat: repeat-y;
+        background-size: 100% 30px;
+        /* Controls the height repetition */
+    }
+
+    /* Full height container */
+    .bg-pattern-vertical {
+        display: flex;
+        justify-content: start;
+        align-items: stretch;
+    }
+
     .link-underline {
         border-bottom-width: 0;
         background-size: 0% 1px;

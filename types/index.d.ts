@@ -6,19 +6,24 @@ declare type MenuItem = {
 declare interface CarouselItem {
     _id: string;
     dataCollectionId: string;
-    data: HeroItemData
+    data: CMSItem
 
 };
 
-declare type HeroItemData = {
-
+declare type CMSItem = {
+    id: string;
+    _id: string;
     title: string;
-    subtitle: string;
-    image: string
+    subtitle?: string;
+    url?: string;
+    image?: string;
+    background?: string;
+    [key: string]: any; // To allow other dynamic fields if needed
+};
 
-}
+declare type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 
-interface CarouselProps {
+declare interface CarouselProps {
     data: CarouselItem[];
 }
 

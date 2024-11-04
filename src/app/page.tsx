@@ -1,41 +1,19 @@
-'use client';
-
-import { useEffect, useState } from "react"
-import { fetchCMSData } from '../utils/api/fetchCMSData'
-import { useWixClient } from "../hooks/useWixClient"
-import { convertWixUrl } from "@/utils/convertWixUrl";
+// Code to display the homepage
+import { fetchHeroData } from "@/utils/api/fetchHeroData";
 import ImageCarousel from "@/components/homePage/ImageCarousel";
 
 
 
-const HomePage = () => {
+const HomePage = async () => {
 
-  const [heroData, setHeroData] = useState<any[]>([])
-  const wixClient = useWixClient()
-
-  useEffect(() => {
-    // Fetch data
-    fetchCMSData(wixClient, "HeroImages").then((fetchedData) => {
-      // Ensure `item.data.image` is handled correctly
-      const updatedData = fetchedData.map((item) => ({
-        ...item,
-        data: {
-          ...item.data,
-          image: item.data.image ? convertWixUrl(item.data.image) : item.data.image, // Convert if image exists
-        },
-      }));
-      setHeroData(updatedData);
-    });
-  }, [wixClient]);
-
-
+  // Fetch hero data
+  const heroData = await fetchHeroData();
 
   return (
     <>
       <ImageCarousel data={heroData} />
     </>
-
-  )
-}
+  );
+};
 
 export default HomePage
