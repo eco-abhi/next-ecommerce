@@ -1,13 +1,7 @@
-// Define a type for CMS items (adjust fields as needed based on actual CMS data structure)
-type CMSItem = {
-    id: string;
-    title: string;
-    subtitle?: string;
-    url?: string;
-    image?: string;
-    background?: string;
-    [key: string]: any; // To allow other dynamic fields if needed
-};
+import { z } from 'zod';
+import { CMSItemSchema } from '@/lib/schemas/CMSItemSchema';
+
+type CMSItem = z.infer<typeof CMSItemSchema>;
 
 // Define a type for the function's return value
 type FetchCMSData = (wixClient: any, collectionId?: string) => Promise<CMSItem[]>;
@@ -17,8 +11,17 @@ export const fetchCMSData: FetchCMSData = async (wixClient, collectionId = 'Hero
     // Inner function to fetch CMS data
     const fetchedData = async () => {
         const res = (await wixClient.items.queryDataItems({ dataCollectionId: collectionId, consistentRead: true }).find()).items;
-        const data = res.map((item: CMSItem) => item);
-        return data;
+        // Validate each item with Zod
+        const data = res.map((item: unknown) => {
+            try {
+
+                return CMSItemSchema.parse(item); // Parse and validate
+            } catch (error) {
+                console.error('Validation error:', error);
+                return null; // Handle invalid items as needed
+            }
+        }).filter(Boolean); // Remove nulls if validation fails
+        return data as CMSItem[];
     };
 
     try {

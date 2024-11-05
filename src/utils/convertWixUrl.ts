@@ -1,12 +1,11 @@
-export const convertWixUrl = (wixUrl: string) => {
-    // Helper function to convert Wix image URL to CDN URL
+export const convertWixUrl = (wixUrl: string): string | null => {
     try {
-        // Extract the image ID portion from the Wix URL
-        const matches = wixUrl.match(/\/(\w+~mv2\.(?:jpg|png|jpeg|gif))/i);
-        if (!matches) return null;
+        // Replace the Wix-specific prefix with the CDN URL
+        const renamedUrl = wixUrl.replace(/^wix:image:\/\/v\d+\//, 'https://static.wixstatic.com/media/');
 
-        const imageId = matches[1];
-        return `https://static.wixstatic.com/media/${imageId}`;
+        // Match up to the first image extension and return
+        const match = renamedUrl.match(/(https?:\/\/.*?\.(?:jpg|jpeg|png|gif))/i);
+        return match ? match[1] : null;
     } catch (error) {
         console.error('Error converting Wix URL:', error);
         return null;

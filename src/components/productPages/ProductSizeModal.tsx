@@ -4,18 +4,16 @@ import React, { useEffect, useState } from 'react';
 import CloseButton from '../../../public/close-button.svg';
 import useEscapeKey from '@/hooks/useEscapeKey';
 import useAnimatedRender from '@/hooks/useAnimatedRender';
-import CartPatternDesign from '../designPatterns/CartPatternDesign';
-import EmptyCart from './EmptyCart';
 
-interface SideModalProps {
+interface ProductSizeModalProps {
     isOpen: boolean;
     onClose: () => void;
-    //   children: React.ReactNode;
+    children: React.ReactNode;
     title?: string;
     itemCount?: number;
 }
 
-const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
+const SizeModal = ({ isOpen, onClose, children }: ProductSizeModalProps) => {
     const { shouldRender, isAnimating } = useAnimatedRender(isOpen, 1000);
     const [screenWidth, setScreenWidth] = useState(0);
 
@@ -63,7 +61,7 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                 <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
                     <div className="px-6 py-4 flex justify-between items-center">
                         <h2 className="text-xl font-bold">
-                            {"Your cart"} {itemCount == 0 && " is empty"}
+                            {"Size Guide"}
                         </h2>
                         <button
                             onClick={onClose}
@@ -74,7 +72,7 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                     </div>
                 </div>
                 <div className="px-6 py-4">
-                    <EmptyCart />
+                    {children}
                 </div>
 
             </div>
@@ -82,4 +80,4 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
     );
 };
 
-export default CartModal;
+export default SizeModal;

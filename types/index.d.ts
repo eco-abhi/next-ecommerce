@@ -11,12 +11,12 @@ declare interface CarouselItem {
 };
 
 declare type CMSItem = {
-    id: string;
+    id: number;
     _id: string;
     title: string;
     subtitle?: string;
-    url?: string;
-    image?: string;
+    url: string;
+    image: string;
     background?: string;
     [key: string]: any; // To allow other dynamic fields if needed
 };

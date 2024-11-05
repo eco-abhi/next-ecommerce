@@ -10,6 +10,10 @@
         font-weight: 400;
         src: url(/fonts/geograph/geographwebregular.woff) format("woff");
     }
+
+    :root {
+        --radius: 0.5rem;
+    }
 }
 
 @layer utilities {
