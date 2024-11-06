@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProductRatings } from './ProductRatings';
 
 interface DiscountTag {
     label: string;
@@ -25,46 +26,43 @@ const ProductInfo: React.FC<ProductDetailsProps> = ({
     whatsIncluded,
 }) => {
     return (
-        <div className="space-y-2">
-            {/* Title */}
-            <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
+        <>
+            <div>
+                {/* Title */}
+                <h1 className="text-3xl font-bold text-gray-900 font-josefin_sans">{title}</h1>
 
-            {/* Rating and Review Count */}
-            <div className="flex items-center space-x-2">
-                <div className="flex">
-                    {[...Array(5)].map((_, i) => (
+                {/* Rating and Review Count */}
+                <div className="flex items-center space-x-2 mt-2">
+                    <ProductRatings rating={rating} />
+                    <span className="text-sm text-gray-800">
+                        ({reviewCount.toLocaleString()})
+                    </span>
+                </div>
+
+                {/* Prices */}
+                <div className="flex items-baseline space-x-2 mt-6">
+                    <span className="text-gray-500 line-through text-base">{originalPrice}</span>
+                    {discountedPrice && <span className="text-xl font-semibold text-gray-900">{discountedPrice}</span>}
+                </div>
+
+                {/* Discount Tags */}
+                {discounts && <div className="flex space-x-2 mt-3">
+                    {discounts.map((discount, index) => (
                         <span
-                            key={i}
-                            className={`font-josefin_sans text-yellow-500 ${i < rating ? 'text-yellow-500' : 'text-gray-300'}`}
+                            key={index}
+                            className="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-md"
                         >
-                            ★
+                            {discount.label}
                         </span>
                     ))}
-                </div>
-                <span className="text-sm text-gray-600">({reviewCount.toLocaleString()})</span>
-            </div>
+                </div>}
 
-            {/* Prices */}
-            <div className="flex items-baseline space-x-2">
-                <span className="text-gray-500 line-through">{originalPrice}</span>
-                <span className="text-2xl font-semibold text-gray-900">{discountedPrice}</span>
             </div>
-
-            {/* Discount Tags */}
-            <div className="flex space-x-2">
-                {discounts.map((discount, index) => (
-                    <span
-                        key={index}
-                        className="bg-green-100 text-green-700 text-sm font-medium px-2 py-1 rounded-md"
-                    >
-                        {discount.label}
-                    </span>
-                ))}
+            <div className='mt-9'>
+                {/* whatsIncluded */}
+                <p className="text-gray-700 text-sm">{whatsIncluded}</p>
             </div>
-
-            {/* whatsIncluded */}
-            <p className="text-gray-700 text-sm mt-2">{whatsIncluded}</p>
-        </div>
+        </>
     );
 };
 

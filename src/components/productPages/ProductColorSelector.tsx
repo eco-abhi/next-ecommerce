@@ -13,17 +13,17 @@ const ProductColorSelector: React.FC<ProductColorSelectorProps> = ({ colors }) =
     const [selectedColor, setSelectedColor] = useState<ColorOption | null>(null);
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-4 w-4/5">
             {/* Title and Selected Color */}
             <div className="flex items-center space-x-2">
-                <span className="text-lg font-normal">Color</span>
-                <span className="text-lg font-bold text-gray-800">
+                <span className="text-lg font-normal">Color: </span>
+                <span className="text-base font-normal text-gray-700">
                     {selectedColor ? selectedColor.name : 'Select a color'}
                 </span>
             </div>
 
             {/* Color Options */}
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2">
                 {colors.map((colorOption, index) => (
                     <button
                         key={index}

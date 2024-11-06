@@ -13,7 +13,7 @@ interface ProductSizeModalProps {
     itemCount?: number;
 }
 
-const SizeModal = ({ isOpen, onClose, children }: ProductSizeModalProps) => {
+const ProductSizeModal = ({ isOpen, onClose, children }: ProductSizeModalProps) => {
     const { shouldRender, isAnimating } = useAnimatedRender(isOpen, 1000);
     const [screenWidth, setScreenWidth] = useState(0);
 
@@ -52,7 +52,7 @@ const SizeModal = ({ isOpen, onClose, children }: ProductSizeModalProps) => {
                 className={`relative bg-white transform transition-transform duration-300 ease-in-out
           ${isAnimating ? '-translate-x-0' : 'translate-x-full'} ${screenWidth < 850
                         ? 'w-full'
-                        : 'w-full max-w-md'
+                        : 'w-full max-w-screen-md'
                     }`}
                 onClick={(e) => {
                     e.stopPropagation()
@@ -80,4 +80,4 @@ const SizeModal = ({ isOpen, onClose, children }: ProductSizeModalProps) => {
     );
 };
 
-export default SizeModal;
+export default ProductSizeModal;
