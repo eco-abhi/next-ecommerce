@@ -78,7 +78,7 @@ const MessageCarousel = ({
 
     return (
         <div className="w-full mx-auto font-geograph">
-            <div className="relative overflow-hidden shadow-lg w-full tablet:h-10 h-[60px] bg-[#273455] items-center justify-center text-center">
+            <div className="relative overflow-hidden w-full h-[30px] bg-transparent items-center justify-center text-center">
 
                 {/* Slides */}
                 {messages.map((message, index) => (
@@ -95,12 +95,12 @@ const MessageCarousel = ({
                 ))}
 
                 {/* Navigation buttons */}
-                <div className="absolute w-8 h-8 left-12 smaller:left-10 tablet:left-48 laptop:left-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
+                <div className="absolute w-7 h-7 left-12 smaller:left-10 tablet:left-48 laptop:left-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
                     <LeftCaret color='white' className="stroke-white" style={{ transform: 'translateX(-2px)' }}
                     />
                 </div>
 
-                <div className="absolute w-8 h-8 right-12 smaller:right-10 tablet:right-48 laptop:right-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
+                <div className="absolute w-7 h-7 right-12 smaller:right-10 tablet:right-48 laptop:right-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
                     <RightCaret color='white' className="stroke-white" style={{ transform: 'translateX(2px)' }} />
                 </div>
             </div>

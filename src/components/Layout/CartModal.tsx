@@ -43,7 +43,7 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
 
     return (
         <div
-            className={`fixed inset-0 z-[500] flex justify-end bg-black transition-opacity duration-600 no-doc-scroll
+            className={`text-black fixed inset-0 z-[500] flex justify-end bg-black transition-opacity duration-600 no-doc-scroll
         ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}
         >
             <div

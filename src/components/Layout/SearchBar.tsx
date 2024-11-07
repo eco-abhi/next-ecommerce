@@ -1,4 +1,3 @@
-"use client"
 import { useEffect, useCallback, useState, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -6,6 +5,7 @@ import { useSearchBarStore } from "@/store/searchBarStore";
 import CloseButton from "../../../public/close-button.svg";
 import useEscapeKey from "@/hooks/useEscapeKey";
 import useEnterKey from "@/hooks/useEnterKey";
+import useClickOutside from "@/hooks/useClickOutside";
 
 interface SearchBarProps {
     isOpen: boolean;
@@ -38,7 +38,8 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
     useEffect(() => {
         if (isOpen) {
             setShouldRender(true);
-            setTimeout(() => setIsAnimating(true), 50); // slight increase to ensure CSS animation
+            setTimeout(() => setIsAnimating(true), 50);
+            console.log('Search bar opened', isOpen);
         } else {
             setIsAnimating(false);
             const timer = setTimeout(() => setShouldRender(false), 600);
@@ -46,22 +47,24 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
         }
     }, [isOpen]);
 
-
     useEscapeKey(handleSearchClose, isOpen);
     useEnterKey(handleSearchSubmit, isOpen);
-
 
     if (!shouldRender) return null;
 
     return (
         <>
-            <div className={`fixed inset-0 z-40 bg-black transition-opacity ${isAnimating ? 'bg-opacity-30 no-doc-scroll' : 'bg-opacity-0'}`}></div>
 
-            <div onClick={handleSearchClose} className="absolute inset-0 z-40" />
+            {/* Search Bar Container */}
+            <div
+                ref={searchContainerRef}
+                className={`z-10 flex justify-center h-[70px] bg-white transition-all duration-500 absolute top-full left-0 w-full ${isAnimating ? 'translate-y-0 border-t-stone-200 border-t-2 shadow-md' : '-translate-y-full'}`}
 
-            <div ref={searchContainerRef} className={`fixed ${window.scrollY < 4 ? 'top-10' : 'top-0'} left-0 right-0 z-50 flex justify-center h-[88px] bg-white`}>
+
+            >
                 <div className="w-full max-w-xl font-geograph bg-white p-4 flex items-center justify-center">
                     <div className="relative flex items-center w-full">
+                        {/* Search Icon */}
                         <Image
                             src="/search.svg"
                             alt="Search"
@@ -70,6 +73,7 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
                             className="absolute left-3 h-5 w-5 text-gray-400"
                             priority
                         />
+                        {/* Search Input */}
                         <input
                             autoFocus
                             name="search-name"
@@ -77,21 +81,23 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
                             onChange={handleInputChange}
                             type="text"
                             placeholder="Search My Home Theory"
-                            className="w-full py-2 pl-10 pr-10 rounded-lg outline-none font-light bg-white"
+                            className="w-full py-2 pl-10 pr-10 text-black rounded-lg outline-none font-light bg-white transition-shadow duration-200"
                         />
+                        {/* Close Button */}
                         <button
-                            onClick={onClose}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                            onClick={handleSearchClose}
+                            className="p-2 ml-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
                         >
                             <CloseButton className="h-5 w-5" />
                         </button>
                     </div>
 
+                    {/* Conditional Results Box */}
                     {searchBarInputText.length > 2 && (
-                        <div className="absolute w-full max-w-xl right-0 flex justify-center top-20 left-1/2 transform -translate-x-1/2">
-                            <div className="bg-white rounded-b-3xl shadow-lg border-b-gray-200 overflow-hidden pb-4 w-full">
+                        <div className="absolute w-full max-w-xl right-0 flex justify-center top-[4rem] left-1/2 transform -translate-x-1/2">
+                            <div className="bg-white rounded-b-3xl shadow-lg border-gray-200 overflow-hidden pb-4 w-full">
                                 <button
-                                    className="w-full p-3 text-blue-600 font-medium text-left"
+                                    className="w-full p-3 text-blue-600 font-medium text-left transition-colors"
                                     onClick={handleSearchSubmit}
                                 >
                                     <span className="font-semibold text-[#04247D] hover:underline underline-offset-4 text-base font-geograph px-4">
@@ -103,8 +109,8 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
                     )}
                 </div>
             </div>
-        </>
 
+        </>
     );
 }
 

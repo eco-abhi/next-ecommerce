@@ -27,7 +27,7 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, slug 
             {/* Product Images */}
             <div className="col-span-1 lg:col-span-7 border ml-28">
                 <div className="w-full h-full">
-                    <ProductImageCarousel images={images} />
+                    <ProductImageCarousel imageUrls={images} />
                 </div>
             </div>
 

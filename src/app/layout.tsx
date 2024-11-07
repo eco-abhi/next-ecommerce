@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/layout/Footer";
-import MergedNavbar from "@/components/layout/MergedNavbar";
+import Navbar from "@/components/layout/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,11 +11,6 @@ export const metadata: Metadata = {
   description: "A complete e-commerce application with Next.js and Wix",
 };
 
-const messages = [
-  "Welcome to our store! 🎉",
-  "Get 20% off on all winter collection! ❄️",
-  "Free shipping on orders above $50 📦",
-];
 
 export default function RootLayout({
   children,
@@ -25,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " bg-[#FCFAF8]"}>
-        <MergedNavbar messages={messages} />
+        <Navbar />
         {children}
         <Footer />
       </body>

@@ -3,10 +3,10 @@ import React from 'react';
 const EmptyCart = () => {
     return (
         <div className="flex flex-col items-center justify-center mt-10 bg-inherit">
-            <div className="space-y-3 w-full max-w-xs">
+            <div className="space-y-6 w-full max-w-xs">
                 {[
-                    { href: "/collections/mens", label: "Shop Men's" },
-                    { href: "/collections/womens", label: "Shop Women's" },
+                    { href: "/collections/mens", label: "Shop Bestsellers" },
+                    { href: "/collections/womens", label: "Go to Homepage" },
                 ].map((item, index) => (
                     <a
                         key={index}

@@ -12,12 +12,12 @@ import {
 import Image from "next/image";
 
 interface ProductImageCarouselProps {
-  images: string[];
+  imageUrls: string[];
 }
 
 EmblaCarousel.globalOptions = { loop: true }
 
-export function ProductImageCarousel({ images }: ProductImageCarouselProps) {
+export function ProductImageCarousel({ imageUrls }: ProductImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
 
@@ -29,12 +29,12 @@ export function ProductImageCarousel({ images }: ProductImageCarouselProps) {
 
 
   const handlePrevious = () => {
-    const newIndex = (currentIndex - 1 + images.length) % images.length;
+    const newIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
     scrollToImage(newIndex);
   };
 
   const handleNext = () => {
-    const newIndex = (currentIndex + 1) % images.length;
+    const newIndex = (currentIndex + 1) % imageUrls.length;
     scrollToImage(newIndex);
   };
 
@@ -58,7 +58,7 @@ export function ProductImageCarousel({ images }: ProductImageCarouselProps) {
   return (
     <div className="relative w-full h-full flex">
       <div className="flex flex-col space-y-2 mr-4">
-        {images.map((image, index) => (
+        {imageUrls.map((image, index) => (
           <button
             key={index}
             onClick={() => scrollToImage(index)}
@@ -78,7 +78,7 @@ export function ProductImageCarousel({ images }: ProductImageCarouselProps) {
 
       <Carousel className="relative w-full" setApi={setApi}>
         <CarouselContent>
-          {images.map((image, index) => (
+          {imageUrls.map((image, index) => (
             <CarouselItem key={index}>
               <div className="p-1">
                 <Card>
@@ -108,3 +108,5 @@ export function ProductImageCarousel({ images }: ProductImageCarouselProps) {
     </div>
   );
 }
+
+
