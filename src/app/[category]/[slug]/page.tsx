@@ -5,6 +5,7 @@ import SheetProductDetails from '@/components/productPages/Bedsheets/SheetProduc
 
 const ProductPage = () => {
     const params = useParams();
+
     const { category, slug } = params;
 
     if (!category || !slug) return null; // Handle loading or invalid state

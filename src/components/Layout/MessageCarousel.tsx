@@ -87,7 +87,7 @@ const MessageCarousel = ({
                         className={getSlideClassName(index)}
                     >
                         <div className="w-full h-full flex items-center justify-center text-center">
-                            <p className="text-white text-sm font-medium text-center">
+                            <p className=" text-sm font-medium text-center">
                                 {message}
                             </p>
                         </div>
@@ -95,13 +95,13 @@ const MessageCarousel = ({
                 ))}
 
                 {/* Navigation buttons */}
-                <div className="absolute w-7 h-7 left-12 smaller:left-10 tablet:left-48 laptop:left-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
-                    <LeftCaret color='white' className="stroke-white" style={{ transform: 'translateX(-2px)' }}
+                <div className="absolute w-7 h-7 left-12 smaller:left-10 tablet:left-48 laptop:left-72 top-1/2 -translate-y-1/2 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('left')}>
+                    <LeftCaret color='white' className="stroke-primary-nav" style={{ transform: 'translateX(-2px)' }}
                     />
                 </div>
 
-                <div className="absolute w-7 h-7 right-12 smaller:right-10 tablet:right-48 laptop:right-72 top-1/2 -translate-y-1/2 hover:bg-white/30 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
-                    <RightCaret color='white' className="stroke-white" style={{ transform: 'translateX(2px)' }} />
+                <div className="absolute w-7 h-7 right-12 smaller:right-10 tablet:right-48 laptop:right-72 top-1/2 -translate-y-1/2 rounded-full p-2 flex items-center justify-center transition-colors cursor-pointer" onClick={() => moveSlide('right')}>
+                    <RightCaret color='white' className="stroke-primary-nav" style={{ transform: 'translateX(2px)' }} />
                 </div>
             </div>
         </div>

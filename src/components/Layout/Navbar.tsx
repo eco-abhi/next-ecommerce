@@ -31,7 +31,7 @@ const Navbar = () => {
             {/* Top Notification Bar */}
             <div
                 className={`${showTopBar ? 'transition-transform duration-700 translate-y-0' : '-translate-y-full'
-                    } bg-green-600 text-white text-center py-1`}
+                    } bg-primary-topBar text-black text-center py-1`}
             >
                 <MessageCarousel messages={['Free shipping on all orders', '30 days return policy', 'asdsadx']} />
             </div>

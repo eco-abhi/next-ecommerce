@@ -96,7 +96,7 @@ const DesktopNavMenu = ({ showTopBar }: DesktopNavMenuProps) => {
         <>
 
             <div
-                className={`px-4 lg:px-16 xl:px-40 flex flex-row items-center transition-colors duration-300 justify-between w-full font-geograph py-2 ${showTopBar ? 'bg-gray-900 text-white' : 'bg-white text-black z-50'}`}
+                className={`px-4 lg:px-16 xl:px-40 flex flex-row items-center transition-colors duration-300 justify-between w-full font-geograph py-2 ${showTopBar ? 'bg-primary-nav text-white' : 'bg-white text-black z-50'}`}
             >
                 {/* Logo */}
                 <div>

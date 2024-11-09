@@ -10,6 +10,26 @@ declare interface CarouselItem {
 
 };
 
+declare interface AuthStore {
+    mode: AuthMode;
+    setMode: (mode: AuthMode) => void;
+    isLoading: boolean;
+    setIsLoading: (loading: boolean) => void;
+    error: string;
+    setError: (error: string) => void;
+    message: string;
+    setMessage: (message: string) => void;
+    // Add helper for getting route from mode
+    getRouteFromMode: (mode: AuthMode) => string;
+}
+
+declare interface FormState {
+    data: null;
+    zodErrors: Record<string, string[]> | null;
+    message: string | null;
+}
+
+
 declare type CMSItem = {
     id: number;
     _id: string;

@@ -1,5 +1,5 @@
 
-import MobileSubMenuDropdown from "./MobileSubMenuDropdown"
+import MobileSubMenuDropdown from "./MobileSubMenuDropdown";
 import LeftCaret from "../../../public/left-caret.svg";
 
 const MobileSubMenu: React.FC<MobileSubMenuProps> = ({ label, submenuItems, otherCollection, backButtonSelected, closeMenu }) => {

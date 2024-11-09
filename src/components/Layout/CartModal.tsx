@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import CloseButton from '../../../public/close-button.svg';
 import useEscapeKey from '@/hooks/useEscapeKey';
 import useAnimatedRender from '@/hooks/useAnimatedRender';
-import CartPatternDesign from '../designPatterns/CartPatternDesign';
 import EmptyCart from './EmptyCart';
 
 interface SideModalProps {
@@ -16,7 +15,8 @@ interface SideModalProps {
 }
 
 const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
-    const { shouldRender, isAnimating } = useAnimatedRender(isOpen, 1000);
+    const [shouldRender, setShouldRender] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
     const [screenWidth, setScreenWidth] = useState(0);
 
 
@@ -32,6 +32,18 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    useEffect(() => {
+        if (isOpen) {
+            setShouldRender(true);
+            setTimeout(() => setIsAnimating(true), 50);
+            console.log('Search bar opened', isOpen);
+        } else {
+            setIsAnimating(false);
+            const timer = setTimeout(() => setShouldRender(false), 600);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
 
 
 

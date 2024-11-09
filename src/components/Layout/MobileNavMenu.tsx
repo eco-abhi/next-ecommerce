@@ -14,7 +14,7 @@ import { useSearchBarStore } from "../../store/searchBarStore";
 import Link from "next/link";
 import Image from "next/image";
 import { useShoppingCartStore } from "@/store/shoppingCartStore";
-import CartModal from "@/components/Layout/CartModal";
+import CartModal from "./CartModal";
 
 interface MobileNavMenuProps {
     showTopBar?: boolean;
