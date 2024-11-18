@@ -1,14 +1,40 @@
-'use client';
+// 'use client' is removed because this is a server component
 
-import { useParams } from 'next/navigation';
+import { fetchProductData } from '@/utils/api/fetchProductData';
 import SheetProductDetails from '@/components/productPages/Bedsheets/SheetProductDetails';
+import { products } from '@wix/stores';
 
-const ProductPage = () => {
-    const params = useParams();
+const ProductPage = async ({ params }: { params: { slug: string; category: string } }) => {
+    console.log('searchParams', params);
 
-    const { category, slug } = params;
+    const { slug, category } = params;
 
-    if (!category || !slug) return null; // Handle loading or invalid state
+    // Fetch product data
+    const productData: products.Product | null = await fetchProductData({ slug });
+
+    // Handle missing product data
+    if (!productData) {
+        return <div>Product not found</div>;
+    }
+
+    // Extract product data
+    // Get product name
+    const productTitle = productData?.name ?? '';
+
+    // Get variants
+    const variants = productData?.variants ?? [];
+
+    const productOptions = productData?.productOptions ?? [];
+    // const productOptions = productData?.productOptions ?? [];
+
+    // console.log('product', product);
+
+
+
+    //    const productOptions = product?.customTextFields || [];
+    //     const productTitle: string = product?.name || '';
+    //     const variants = product?.variants || [];
+    //     // console.log('productTitle', product)
 
     // Render the component based on the category
     const renderProductComponent = () => {
@@ -17,12 +43,14 @@ const ProductPage = () => {
                 return (
                     <SheetProductDetails
                         slug={slug as string}
-                        images={[
-                            'https://static.wixstatic.com/media/45d10e_9e18a8d563fc4774a0b917d7f5e07ff6~mv2.jpg/v1/fill/w_750,h_750,al_c,q_85,enc_auto/45d10e_9e18a8d563fc4774a0b917d7f5e07ff6~mv2.jpg',
-                            'https://static.wixstatic.com/media/45d10e_15641be40e0c43d89f5426f8949b51bd~mv2.jpg/v1/fill/w_750,h_750,al_c,q_85,enc_auto/45d10e_15641be40e0c43d89f5426f8949b51bd~mv2.jpg',
-                            'https://static.wixstatic.com/media/45d10e_1d14719f23fa4277bddd33220562c678~mv2.jpg/v1/fill/w_750,h_750,al_c,q_85,enc_auto/45d10e_1d14719f23fa4277bddd33220562c678~mv2.jpg'
-                        ]}
+                        images={[]}
+                        productTitle={productTitle}
+                        productRating={4.5}
+                        reviewCount={100}
+                        productOptions={productOptions}
+                        variants={variants}
                     />
+                    // <></>
                 );
             // Add more cases for other categories as needed
             default:

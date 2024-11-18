@@ -10,6 +10,24 @@ declare interface CarouselItem {
 
 };
 
+declare interface ProductOptionChoice {
+    value?: string;
+    description?: string;
+    media?: {
+        items?: any[];
+    };
+    inStock?: boolean;
+    visible?: boolean;
+}
+
+declare interface ProductOption {
+    optionType?: string;
+    name?: string;
+    choices?: ProductOptionChoice[];
+}
+
+declare type ProductOptions = ProductOption[];
+
 declare interface AuthStore {
     mode: AuthMode;
     setMode: (mode: AuthMode) => void;

@@ -15,7 +15,8 @@ const config: Config = {
           body: '#E7EAED',
           nav: '#242c3d',
           navFixed: "#FFFFFF",
-          topBar: "#FFFFFF"
+          topBar: "#FFFFFF",
+          gray: '#EFF0ED'
         },
         'secondary': {
           100: '#E2E2D5',
@@ -23,6 +24,7 @@ const config: Config = {
         },
         'text-color': {
           primary: '#2F4858',
+          higlighted: '#508334'
         }
       },
       padding: {

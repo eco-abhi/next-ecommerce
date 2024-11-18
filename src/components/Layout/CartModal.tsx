@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import CloseButton from '../../../public/close-button.svg';
 import useEscapeKey from '@/hooks/useEscapeKey';
-import useAnimatedRender from '@/hooks/useAnimatedRender';
 import EmptyCart from './EmptyCart';
+import CartSummary from './CartSummary';
 
 interface SideModalProps {
     isOpen: boolean;
@@ -37,16 +37,12 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
         if (isOpen) {
             setShouldRender(true);
             setTimeout(() => setIsAnimating(true), 50);
-            console.log('Search bar opened', isOpen);
         } else {
             setIsAnimating(false);
             const timer = setTimeout(() => setShouldRender(false), 600);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
-
-
-
 
     useEscapeKey(onClose, isOpen);
 
@@ -55,7 +51,7 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
 
     return (
         <div
-            className={`text-black fixed inset-0 z-[500] flex justify-end bg-black transition-opacity duration-600 no-doc-scroll
+            className={`text-black fixed inset-0  flex justify-end bg-black transition-opacity duration-600 no-doc-scroll
         ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}
         >
             <div
@@ -63,16 +59,13 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                 className="absolute inset-0"
             />
             <div
-                className={`relative bg-white transform transition-transform duration-300 ease-in-out
-          ${isAnimating ? '-translate-x-0' : 'translate-x-full'} ${screenWidth < 850
-                        ? 'w-full'
-                        : 'w-full max-w-md'
-                    }`}
+                className={`relative bg-white transform z-[999] border-white transition-transform duration-300 ease-in-out ${isAnimating ? '-translate-x-0' : 'translate-x-full'
+                    } ${screenWidth < 850 ? 'w-full' : 'max-w-md w-full'}`}
                 onClick={(e) => {
                     e.stopPropagation()
                 }}
             >
-                <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
+                <div className="sticky top-0 bg-white z-[502] border-b border-gray-200">
                     <div className="px-6 py-4 flex justify-between items-center">
                         <h2 className="text-xl font-bold">
                             {"Your cart"} {itemCount == 0 && " is empty"}
@@ -86,7 +79,9 @@ const CartModal = ({ isOpen, onClose, itemCount = 0 }: SideModalProps) => {
                     </div>
                 </div>
                 <div className="px-6 py-4">
-                    <EmptyCart />
+                    {/* <EmptyCart />
+                     */}
+                    <CartSummary />
                 </div>
 
             </div>

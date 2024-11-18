@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ColorOption {
     name: string;
     color: string; // Can be a color code or a pattern
+    inStock: boolean;
 }
 
 interface ProductColorSelectorProps {
     colors: ColorOption[];
+    setSelectedColorOption: (color: ColorOption | null) => void;
 }
 
-const ProductColorSelector: React.FC<ProductColorSelectorProps> = ({ colors }) => {
+const ProductColorSelector: React.FC<ProductColorSelectorProps> = ({ colors, setSelectedColorOption }) => {
     const [selectedColor, setSelectedColor] = useState<ColorOption | null>(null);
+
+    // Use effect to update selected color only when it changes
+    useEffect(() => {
+        setSelectedColorOption(selectedColor);
+    }, [selectedColor]);
 
     return (
         <div className="space-y-4 w-4/5">

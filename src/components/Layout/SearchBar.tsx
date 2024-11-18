@@ -58,7 +58,7 @@ function SearchBar({ isOpen, onClose }: SearchBarProps) {
             {/* Search Bar Container */}
             <div
                 ref={searchContainerRef}
-                className={`z-10 flex justify-center h-[70px] bg-white transition-all duration-500 absolute top-full left-0 w-full ${isAnimating ? 'translate-y-0 border-t-stone-200 border-t-2 shadow-md' : '-translate-y-full'}`}
+                className={` flex justify-center h-[70px] bg-white transition-all duration-500 absolute top-full left-0 w-full ${isAnimating ? 'translate-y-0 border-t-stone-200 border-t-2 shadow-md' : '-translate-y-full'}`}
 
 
             >

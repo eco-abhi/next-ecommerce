@@ -5,56 +5,73 @@ import DesktopNavMenu from '@/components/layout/DesktopNavMenu';
 import MobileNavMenu from '@/components/layout/MobileNavMenu';
 import { useSearchBarStore } from '@/store/searchBarStore';
 import SearchBar from './SearchBar';
+import { motion, useTransform, useScroll, useMotionValueEvent } from "motion/react"
 
 const Navbar = () => {
     const [showTopBar, setShowTopBar] = useState(true);
     const { openSearchBar, toggleOpenSearchBar } = useSearchBarStore();
+    const { scrollY } = useScroll();
+
+    // Only animate when the user is at the top
+    const y = useTransform(scrollY, [0, 200], [0, -40]); // The animation range, if needed
 
     const handleCloseSearchBar = () => toggleOpenSearchBar(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setShowTopBar(window.scrollY < 30);
-        };
+        const unsubscribe = scrollY.on('change', (currentScrollY) => {
+            setShowTopBar(currentScrollY < 120);
+        });
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+        return () => unsubscribe();
+    }, [scrollY]);
 
-    return (
-        <div className="w-full relative z-30">
-            {/* Dark Overlay */}
-            {openSearchBar && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 -z-50" onClick={handleCloseSearchBar} />
-            )}
-
-            {/* Top Notification Bar */}
+    return (<>
+        {/* Dark Overlay */}
+        {openSearchBar && (
             <div
-                className={`${showTopBar ? 'transition-transform duration-700 translate-y-0' : '-translate-y-full'
-                    } bg-primary-topBar text-black text-center py-1`}
-            >
-                <MessageCarousel messages={['Free shipping on all orders', '30 days return policy', 'asdsadx']} />
-            </div>
+                className="fixed inset-0 bg-black bg-opacity-50 z-50"
+                onClick={handleCloseSearchBar}
+            />
+        )}
 
-            {/* Main Navbar */}
-            <nav className={`flex top-0 w-full items-center justify-between shadow-md  ${showTopBar ? '' : 'transition-colors duration-1000 fixed z-50'}`}>
-                {/* Mobile Menu */}
-                <div className="tablet:hidden justify-center items-center w-full z-40">
-                    <MobileNavMenu showTopBar={showTopBar} />
+        {/* Sticky wrapper without motion */}
+        <div className="sticky top-0 w-full z-50">
+            {/* Motion content wrapper */}
+            <motion.div className="w-full bg-white" style={{ y: y }}>
+                {/* Top Notification Bar */}
+                <div
+                    className={`transition-transform duration-700  bg-primary-topBar text-black text-center py-1`}
+                >
+                    <MessageCarousel
+                        messages={[
+                            'Free shipping on all orders',
+                            '30 days return policy',
+                            'asdsadx',
+                            'Free shipping on all orders and 30 days return policy',
+                        ]}
+                    />
                 </div>
 
-                {/* Desktop Menu */}
-                <div className="hidden tablet:flex justify-center items-center w-full z-40">
-                    <DesktopNavMenu showTopBar={showTopBar} />
-                </div>
-                {/* 
-                {/* Search Bar */}
-                <div className="w-auto">
-                    <SearchBar onClose={handleCloseSearchBar} isOpen={openSearchBar} />
-                </div>
-            </nav>
+                {/* Main Navbar */}
+                <nav className="w-full items-center justify-between shadow-md z-50">
+                    {/* Mobile Menu */}
+                    <div className="tablet:hidden justify-center items-center w-full">
+                        <MobileNavMenu showTopBar={showTopBar} />
+                    </div>
+
+                    {/* Desktop Menu */}
+                    <div className="hidden tablet:flex justify-center items-center w-full">
+                        <DesktopNavMenu showTopBar={showTopBar} />
+                    </div>
+
+                    {/* Search Bar */}
+                    <div className="w-auto z-40">
+                        <SearchBar onClose={handleCloseSearchBar} isOpen={openSearchBar} />
+                    </div>
+                </nav>
+            </motion.div>
         </div>
-    );
+    </>);
 };
 
 export default Navbar;
