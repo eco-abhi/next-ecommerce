@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { AnimatePresence, motion } from "motion/react";
 import CloseButton from '../../../public/close-button.svg';
+import { createPortal } from "react-dom";
 import useEscapeKey from '@/hooks/useEscapeKey';
-import useAnimatedRender from '@/hooks/useAnimatedRender';
 
 interface ProductSizeModalProps {
     isOpen: boolean;
@@ -13,70 +14,67 @@ interface ProductSizeModalProps {
     itemCount?: number;
 }
 
-const ProductSizeModal = ({ isOpen, onClose, children }: ProductSizeModalProps) => {
-    const { shouldRender, isAnimating } = useAnimatedRender(isOpen, 1000);
-    const [screenWidth, setScreenWidth] = useState(0);
-
-
-    useEffect(() => {
-        const handleResize = () => {
-            setScreenWidth(window.innerWidth);
-        };
-
-        window.addEventListener('resize', handleResize);
-        handleResize();
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-
-
-
+const ProductSizeModal: React.FC<ProductSizeModalProps> = ({ isOpen, onClose, children, title = "Size Guide" }) => {
     useEscapeKey(onClose, isOpen);
 
-    if (!shouldRender) return null;
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
+    // Return null if running on server
+    if (typeof window === 'undefined') return null;
 
 
-    return (
-        <div
-            className={`fixed inset-0 z-[500] flex justify-end bg-black transition-opacity duration-600 no-doc-scroll
-        ${isAnimating ? 'bg-opacity-30' : 'bg-opacity-0'}`}
-        >
-            <div
-                onClick={onClose}
-                className="absolute inset-0"
-            />
-            <div
-                className={`relative bg-white transform transition-transform duration-300 ease-in-out
-          ${isAnimating ? '-translate-x-0' : 'translate-x-full'} ${screenWidth < 850
-                        ? 'w-full'
-                        : 'w-full max-w-screen-md'
-                    }`}
-                onClick={(e) => {
-                    e.stopPropagation()
-                }}
-            >
-                <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
-                    <div className="px-6 py-4 flex justify-between items-center">
-                        <h2 className="text-xl font-bold">
-                            {"Size Guide"}
-                        </h2>
-                        <button
-                            onClick={onClose}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                        >
-                            <CloseButton className="h-6 w-6" />
-                        </button>
-                    </div>
-                </div>
-                <div className="px-6 py-4">
-                    {children}
-                </div>
 
-            </div>
-        </div>
+    return createPortal(
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    key="modal-backdrop"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="fixed inset-0 z-[9998] bg-black bg-opacity-30"
+                    onClick={onClose}
+                >
+                    <motion.div
+                        key="modal-content"
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="fixed top-0 right-0 h-full bg-white w-full tablet:max-w-screen-md tablet:w-full"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
+                            <div className="px-6 py-4 flex justify-between items-center">
+                                <h2 className="text-xl font-bold">
+                                    {title}
+                                </h2>
+                                <button
+                                    onClick={onClose}
+                                    className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                                >
+                                    <CloseButton className="h-6 w-6" />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="px-6 py-4">
+                            {children}
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>,
+        document.body
     );
 };
 

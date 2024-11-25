@@ -19,12 +19,17 @@ const ProductPage = async ({ params }: { params: { slug: string; category: strin
 
     // Extract product data
     // Get product name
+    const productId = productData?._id ?? '';
+    console.log('productId', productId);
     const productTitle = productData?.name ?? '';
 
     // Get variants
     const variants = productData?.variants ?? [];
 
     const productOptions = productData?.productOptions ?? [];
+
+    const productImages = productData?.media?.items ?? [];
+
     // const productOptions = productData?.productOptions ?? [];
 
     // console.log('product', product);
@@ -43,12 +48,13 @@ const ProductPage = async ({ params }: { params: { slug: string; category: strin
                 return (
                     <SheetProductDetails
                         slug={slug as string}
-                        images={[]}
+                        images={productImages}
                         productTitle={productTitle}
                         productRating={4.5}
                         reviewCount={100}
                         productOptions={productOptions}
                         variants={variants}
+                        productId={productId}
                     />
                     // <></>
                 );
@@ -58,7 +64,7 @@ const ProductPage = async ({ params }: { params: { slug: string; category: strin
         }
     };
 
-    return <div>{renderProductComponent()}</div>;
+    return <div className='z-[10]'>{renderProductComponent()}</div>;
 };
 
 export default ProductPage;

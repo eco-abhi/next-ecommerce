@@ -13,7 +13,7 @@ import { useRef } from "react";
 import { useSearchBarStore } from "../../store/searchBarStore";
 import Link from "next/link";
 import Image from "next/image";
-import { useShoppingCartStore } from "@/store/shoppingCartStore";
+import { useCartStore } from "@/store/cartStore";
 import CartModal from "./CartModal";
 
 interface MobileNavMenuProps {
@@ -34,10 +34,9 @@ const MobileNavMenu = ({ showTopBar }: MobileNavMenuProps) => {
     const { navItems } = useNavLinkStore();
     const { categoryItems } = useSaleCategoryStore();
     const { openSearchBar, toggleOpenSearchBar } = useSearchBarStore();
-    const { cartModalOpen, setCartModalOpen } = useShoppingCartStore();
+    const { cartModalOpen, setCartModalOpen } = useCartStore();
 
     const mobileNavMenuRef = useRef(null);
-    const searchModalRef = useRef(null);
 
     const handleSelectedMenuItem = useCallback((label: string) => setSelectedCategory(label), []);
 
@@ -47,9 +46,8 @@ const MobileNavMenu = ({ showTopBar }: MobileNavMenuProps) => {
 
     const handleCloseMenu = useCallback(() => setOpenMenu(false), []);
 
-    const handleCloseSearchBar = useCallback(() => toggleOpenSearchBar(false), []);
-
     const handleSearchIconClick = useCallback(() => toggleOpenSearchBar(true), []);
+
 
     useEffect(() => {
         if (selectedCategory) {
@@ -64,17 +62,6 @@ const MobileNavMenu = ({ showTopBar }: MobileNavMenuProps) => {
 
     }, [selectedCategory])
 
-    useEffect(() => {
-        if (openMenu) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [openMenu]);
 
     useEffect(() => {
         // Function to check screen size and trigger button click

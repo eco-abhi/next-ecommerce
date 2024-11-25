@@ -1,7 +1,7 @@
 'use client';
 
 import { products } from "@wix/stores";
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import { ProductImageCarousel } from '../ProductImageCarousel';
@@ -12,17 +12,19 @@ import ProductSizeSelector from '../ProductSizeSelector';
 import ProductSizeModal from '../ProductSizeModal';
 import SheetSizeGuideTable from './SheetSizeGuideTable';
 import AddToCartSection from '../AddToCartSection';
-import { useEffect, useCallback } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { Container } from "postcss";
 
 
 interface SheetProductDetailsProps {
-    images: string[];
+    images: products.MediaItem[];
     slug: string;
     productTitle: string;
     productRating: number;
     reviewCount: number;
     originalPrice?: string;
     variants: products.Variant[];
+    productId: string;
     // discountedPrice: string;
     // discounts: { label: string; color: string }[];
     // productSizes: { label: string }[];
@@ -34,13 +36,16 @@ function capitalizeFirstLetter(val: string) {
 }
 
 
-const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, variants, productOptions, productTitle }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isScrollable, setIsScrollable] = useState(false);
+const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, variants, productOptions, productTitle, productId }) => {
+    const [cartModalOpen, setCartModalOpen] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState<{
         [key: string]: string;
     }>({});
     const [selectedVariant, setSelectedVariant] = useState<products.Variant>();
+
+    const contentRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
 
     // Memoize the variant finding logic
     useEffect(() => {
@@ -87,140 +92,16 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
         });
     }, [variants]);
 
-    const onClose = useCallback(() => setIsOpen(false), []);
-
-
-    //     return (
-    //         <div className="font-geograph mx-auto max-w-10xl pt-10 grid grid-cols-1 lg:grid-cols-12 gap-6 space-y-8 lg:space-y-0 border">
-    //             {/* Product Images */}
-    //             <div className="col-span-1 lg:col-span-7 border ml-28">
-    //                 <div className="w-full h-full">
-    //                     <ProductImageCarousel imageUrls={images} />
-    //                 </div>
-    //             </div>
-
-    //             {/* Product Info and Actions */}
-    //             <div className={`${isScrollable ? 'overflow-y-auto' : ''} col-span-1 lg:col-span-5  border`}>
-    //                 {/* Product Info */}
-    //                 <ProductInfo
-    //                     title="Sheet Title"
-    //                     rating={3.4}
-    //                     reviewCount={100}
-    //                     originalPrice="$100"
-    //                     discountedPrice="$80"
-    //                     discounts={[
-    //                         { label: '20% OFF', color: 'green' },
-    //                         { label: 'Free Shipping', color: 'blue' },
-    //                     ]}
-    //                     whatsIncluded="Includes 1 bedsheet, 2 pillow covers, and 1 duvet cover"
-    //                 />
-
-    //                 {/* Color Selector */}
-    //                 <div className='mt-9'>
-    //                     <ProductColorSelector
-    //                         colors={[
-    //                             { name: 'White', color: '#FFFFFF', inStock: true },
-    //                             { name: 'Black', color: '#000000' },
-    //                             { name: 'Blue', color: '#0000FF' },
-    //                             { name: 'Red', color: '#FF0000' },
-    //                             { name: 'Green', color: '#008000' },
-    //                             { name: 'Yellow', color: '#FFFF00' },
-    //                         ]}
-    //                         setSelectedColorOption={(color) => handleOptionSelect('Color', color?.name!)}
-    //                     />
-    //                 </div>
-
-    //                 {/* Size Selector with Size Guide Modal */}
-    //                 <div className="flex items-center space-x-4 mt-9">
-    //                     <ProductSizeSelector
-    //                         sizes={[
-    //                             { label: 'Single' },
-    //                             { label: 'Double' },
-    //                             { label: 'King' },
-    //                             { label: 'Queen' },
-    //                             { label: 'Cali King' },
-    //                         ]}
-    //                         sizeGuideModalChild={<button
-    //                             onClick={() => setIsOpen(true)}
-    //                             className="text-sm text-gray-600 underline hover:text-gray-800"
-    //                         >
-    //                             Size Guide
-    //                         </button>}
-    //                         onSizeSelect={(size) => handleOptionSelect('Size', size)}
-    //                     />
-
-    //                 </div>
-
-    //                 {/* Add to Cart Section */}
-    //                 <div className='mt-9'>
-    //                     <AddToCartSection onAddToCart={(quantity) => console.log(quantity)} originalPrice={"$100"}
-    //                         discountedPrice={"$80"} />
-    //                 </div>
-
-
-    //                 {/* Product Details Accordion */}
-    //                 <div className='mt-9'>
-    //                     <ProductDetailAccordion />
-    //                 </div>
-
-    //             </div>
-
-    //             {/* Size Guide Modal */}
-    //             {isOpen && (
-    //                 <ProductSizeModal isOpen={isOpen} onClose={onClose}>
-    //                     <SheetSizeGuideTable
-    //                         data={[
-    //                             {
-    //                                 name: 'Single',
-    //                                 duvetCover: '140x200',
-    //                                 fittedSheet: '90x190',
-    //                                 flatSheet: '180x290',
-    //                                 pillowcases: '50x75',
-    //                             },
-    //                             {
-    //                                 name: 'Double',
-    //                                 duvetCover: '200x200',
-    //                                 fittedSheet: '140x190',
-    //                                 flatSheet: '230x290',
-    //                                 pillowcases: '50x75',
-    //                             },
-    //                             {
-    //                                 name: 'King',
-    //                                 duvetCover: '230x220',
-    //                                 fittedSheet: '150x200',
-    //                                 flatSheet: '275x295',
-    //                                 pillowcases: '50x75',
-    //                             },
-    //                             {
-    //                                 name: 'Queen',
-    //                                 duvetCover: '230x220',
-    //                                 fittedSheet: '150x200',
-    //                                 flatSheet: '275x295',
-    //                                 pillowcases: '50x75',
-    //                             },
-    //                             {
-    //                                 name: 'Cali King',
-    //                                 duvetCover: '230x220',
-    //                                 fittedSheet: '150x200',
-    //                                 flatSheet: '275x295',
-    //                                 pillowcases: '50x75',
-    //                             },
-    //                         ]}
-    //                     />
-    //                 </ProductSizeModal>
-    //             )}
-    //         </div>
-    //     );
-    // };
     return (
-        <div className="font-geograph mx-auto max-w-10xl pt-10 grid grid-cols-1 lg:grid-cols-12 gap-6 space-y-8 lg:space-y-0 border">
+        <div className="z-[10] font-geograph mx-auto max-w-10xl pt-10 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-screen h-full">
             {/* Product Images */}
-            <div className="col-span-1 lg:col-span-6 border ml-28">
-                <div className="w-full h-full">
+            <div className="col-span-1 lg:col-span-6 border ml-28 sticky top-20">
+                <div className="w-full border-2 border-red-200">
                     <ProductImageCarousel imageUrls={images} />
                 </div>
             </div>
-            <div className={`${isScrollable ? 'overflow-y-auto' : ''} col-span-1 lg:col-span-5  border`}>
+
+            <div className={`col-span-1 lg:col-span-5 pt-5`} ref={contentRef}>
                 <ProductInfo
                     title={productTitle}
                     rating={3.4}
@@ -246,7 +127,7 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                             </div>
                             {/* <h4 className="font-medium">Choose a {option.name}</h4> */}
                             {option.name === "Size" && <button
-                                onClick={() => setIsOpen(true)}
+                                onClick={() => setCartModalOpen(true)}
                                 className="text-sm text-gray-600 underline hover:text-gray-800"
                             >
                                 Size Guide
@@ -255,7 +136,7 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
 
 
                         <ul className={`${option.name === "Color" ? "flex items-center gap-3" : "grid grid-cols-3 gap-2 mt-2 w-full"}`}>
-                            {option.choices?.map((choice) => {
+                            {option.choices?.map((choice, index) => {
                                 const disabled = !isVariantInStock({
                                     ...selectedOptions,
                                     [option.name!]: choice.description!,
@@ -276,7 +157,7 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                                             cursor: disabled ? "not-allowed" : "pointer",
                                         }}
                                         onClick={clickHandler}
-                                        key={choice.description}
+                                        key={`${choice.description}-${index}`}
                                     >
                                         {selected && (
                                             <div className="absolute w-10 h-10 rounded-full ring-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
@@ -307,18 +188,11 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                                             boxShadow: disabled ? "none" : "",
 
                                         }}
-                                        key={choice.description}
+                                        key={`${choice.description}-${index}`}
                                         onClick={clickHandler}
                                     >
                                         {choice.description}
                                     </li>
-
-
-
-
-
-
-
 
                                 );
                             })}
@@ -328,8 +202,10 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                 ))}
                 {/* Add to Cart Section */}
                 <div className='mt-9'>
-                    <AddToCartSection onAddToCart={(quantity) => console.log(quantity)} originalPrice={"$100"}
-                        discountedPrice={"$80"} />
+                    <AddToCartSection originalPrice={"$100"}
+                        discountedPrice={"$80"} productId={productId} variantId={selectedVariant?._id || ''}
+                        maxQuantity={selectedVariant?.stock?.quantity || 0}
+                    />
                 </div>
 
 
@@ -338,8 +214,8 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                     <ProductDetailAccordion />
                 </div>
                 {/* Size Guide Modal */}
-                {isOpen && (
-                    <ProductSizeModal isOpen={isOpen} onClose={onClose}>
+                {(
+                    <ProductSizeModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)}>
                         <SheetSizeGuideTable
                             data={[
                                 {

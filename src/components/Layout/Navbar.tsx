@@ -5,73 +5,91 @@ import DesktopNavMenu from '@/components/layout/DesktopNavMenu';
 import MobileNavMenu from '@/components/layout/MobileNavMenu';
 import { useSearchBarStore } from '@/store/searchBarStore';
 import SearchBar from './SearchBar';
-import { motion, useTransform, useScroll, useMotionValueEvent } from "motion/react"
+import { motion, useTransform, useScroll, useSpring } from "motion/react"
 
 const Navbar = () => {
     const [showTopBar, setShowTopBar] = useState(true);
     const { openSearchBar, toggleOpenSearchBar } = useSearchBarStore();
     const { scrollY } = useScroll();
 
-    // Only animate when the user is at the top
-    const y = useTransform(scrollY, [0, 200], [0, -40]); // The animation range, if needed
+    const rawY = useTransform(scrollY, [0, 200], [0, -40]);
+    const y = useSpring(rawY, {
+        stiffness: 40,
+        damping: 15,
+        mass: 0.8,
+    });
 
     const handleCloseSearchBar = () => toggleOpenSearchBar(false);
 
     useEffect(() => {
+        let lastScrollY = 0;
+
         const unsubscribe = scrollY.on('change', (currentScrollY) => {
-            setShowTopBar(currentScrollY < 120);
+            if (Math.abs(currentScrollY - lastScrollY) > 5) {
+                setShowTopBar(currentScrollY < 120);
+                lastScrollY = currentScrollY;
+            }
         });
 
         return () => unsubscribe();
     }, [scrollY]);
 
-    return (<>
-        {/* Dark Overlay */}
-        {openSearchBar && (
-            <div
-                className="fixed inset-0 bg-black bg-opacity-50 z-50"
-                onClick={handleCloseSearchBar}
-            />
-        )}
-
-        {/* Sticky wrapper without motion */}
-        <div className="sticky top-0 w-full z-50">
-            {/* Motion content wrapper */}
-            <motion.div className="w-full bg-white" style={{ y: y }}>
-                {/* Top Notification Bar */}
-                <div
-                    className={`transition-transform duration-700  bg-primary-topBar text-black text-center py-1`}
+    return (
+        <>
+            {/* Navbar Container */}
+            <div className="sticky top-0 w-full z-30">
+                {/* Motion content wrapper */}
+                <motion.div
+                    className="w-full bg-white transform-gpu"
+                    style={{ y }}
                 >
-                    <MessageCarousel
-                        messages={[
-                            'Free shipping on all orders',
-                            '30 days return policy',
-                            'asdsadx',
-                            'Free shipping on all orders and 30 days return policy',
-                        ]}
-                    />
-                </div>
-
-                {/* Main Navbar */}
-                <nav className="w-full items-center justify-between shadow-md z-50">
-                    {/* Mobile Menu */}
-                    <div className="tablet:hidden justify-center items-center w-full">
-                        <MobileNavMenu showTopBar={showTopBar} />
+                    {/* Top Notification Bar */}
+                    <div
+                        className={`transition-all duration-500 ease-in-out bg-transparent text-black text-center py-1 transform-gpu ${showTopBar ? 'translate-y-0' : '-translate-y-full'
+                            }`}
+                    >
+                        <MessageCarousel
+                            messages={[
+                                'Free shipping on all orders',
+                                '30 days return policy',
+                                'asdsadx',
+                                'Free shipping on all orders and 30 days return policy',
+                            ]}
+                        />
                     </div>
 
-                    {/* Desktop Menu */}
-                    <div className="hidden tablet:flex justify-center items-center w-full">
-                        <DesktopNavMenu showTopBar={showTopBar} />
-                    </div>
+                    {/* Main Navbar */}
+                    <nav className="w-full items-center justify-between shadow-md bg-transparent relative">
+                        {/* Mobile Menu */}
+                        <div className="tablet:hidden justify-center items-center w-full">
+                            <MobileNavMenu showTopBar={showTopBar} />
+                        </div>
 
-                    {/* Search Bar */}
-                    <div className="w-auto z-40">
-                        <SearchBar onClose={handleCloseSearchBar} isOpen={openSearchBar} />
-                    </div>
-                </nav>
-            </motion.div>
-        </div>
-    </>);
+                        {/* Desktop Menu */}
+                        <div className="hidden tablet:flex justify-center items-center w-full">
+                            <DesktopNavMenu showTopBar={showTopBar} />
+                        </div>
+                    </nav>
+                </motion.div>
+            </div>
+
+            {/* Dark Overlay - Highest z-index */}
+            {openSearchBar && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 bg-black/50 z-[998]"
+                    onClick={handleCloseSearchBar}
+                />
+            )}
+
+            {/* Search Bar - Between overlay and navbar */}
+            <div className="z-[999] relative">
+                <SearchBar onClose={handleCloseSearchBar} isOpen={openSearchBar} />
+            </div>
+        </>
+    );
 };
 
 export default Navbar;

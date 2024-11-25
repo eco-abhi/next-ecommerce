@@ -1,11 +1,12 @@
 "use client";
 
-import { createClient, OAuthStrategy } from "@wix/sdk";
+import { createClient, OAuthStrategy, media as wixMedia } from "@wix/sdk";
 import { products, collections } from "@wix/stores";
 // import { currentCart } from "@wix/ecom";
 import Cookies from "js-cookie";
 import { createContext, ReactNode } from "react";
 import { redirects } from '@wix/redirects';
+import { currentCart } from '@wix/ecom';
 
 const refreshToken = JSON.parse(Cookies.get("refreshToken") || "{}");
 
@@ -13,7 +14,7 @@ const wixClient = createClient({
     modules: {
         products,
         collections,
-        // currentCart,
+        currentCart,
         redirects
     },
     auth: OAuthStrategy({

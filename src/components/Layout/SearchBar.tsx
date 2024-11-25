@@ -5,7 +5,6 @@ import { useSearchBarStore } from "@/store/searchBarStore";
 import CloseButton from "../../../public/close-button.svg";
 import useEscapeKey from "@/hooks/useEscapeKey";
 import useEnterKey from "@/hooks/useEnterKey";
-import useClickOutside from "@/hooks/useClickOutside";
 
 interface SearchBarProps {
     isOpen: boolean;
