@@ -93,15 +93,18 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
     }, [variants]);
 
     return (
-        <div className="z-[10] font-geograph mx-auto max-w-10xl pt-10 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-screen h-full">
-            {/* Product Images */}
-            <div className="col-span-1 lg:col-span-6 border ml-28 sticky top-20">
-                <div className="w-full border-2 border-red-200">
-                    <ProductImageCarousel imageUrls={images} />
+        <div className="relative font-geograph mx-auto max-w-10xl pt-10 min-h-screen flex flex-col lg:flex-row gap-6 border-2 border-yellow-600">
+            {/* Sticky Section */}
+            <div className="lg:sticky lg:top-20 lg:w-1/3 lg:flex-shrink-0 self-start pt-5">
+                <div className="border lg:ml-28">
+                    <div className="w-full border-2 border-red-200">
+                        <ProductImageCarousel imageUrls={images} />
+                    </div>
                 </div>
             </div>
 
-            <div className={`col-span-1 lg:col-span-5 pt-5`} ref={contentRef}>
+            {/* Scrollable Section */}
+            <div className="pt-5 flex-1 overflow-y-auto">
                 <ProductInfo
                     title={productTitle}
                     rating={3.4}
@@ -116,26 +119,33 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                 />
                 {productOptions.map((option) => (
                     <div className="flex flex-col gap-4" key={option.name}>
-
                         <div className="flex justify-between items-center">
-                            {/* Title and Selected Color */}
+                            {/* Title and Selected Option */}
                             <div className="flex items-center space-x-2">
                                 <span className="text-lg font-normal">{option.name}: </span>
                                 <span className="text-base font-normal text-gray-700">
-                                    {option.name?.toUpperCase() && selectedOptions[capitalizeFirstLetter(option.name)] ? selectedOptions[capitalizeFirstLetter(option.name)] : `Select a ${option.name?.toLowerCase()}`}
+                                    {option.name?.toUpperCase() &&
+                                        selectedOptions[capitalizeFirstLetter(option.name)]
+                                        ? selectedOptions[capitalizeFirstLetter(option.name)]
+                                        : `Select a ${option.name?.toLowerCase()}`}
                                 </span>
                             </div>
-                            {/* <h4 className="font-medium">Choose a {option.name}</h4> */}
-                            {option.name === "Size" && <button
-                                onClick={() => setCartModalOpen(true)}
-                                className="text-sm text-gray-600 underline hover:text-gray-800"
-                            >
-                                Size Guide
-                            </button>}
+                            {option.name === "Size" && (
+                                <button
+                                    onClick={() => setCartModalOpen(true)}
+                                    className="text-sm text-gray-600 underline hover:text-gray-800"
+                                >
+                                    Size Guide
+                                </button>
+                            )}
                         </div>
 
-
-                        <ul className={`${option.name === "Color" ? "flex items-center gap-3" : "grid grid-cols-3 gap-2 mt-2 w-full"}`}>
+                        <ul
+                            className={`${option.name === "Color"
+                                ? "flex items-center gap-3"
+                                : "grid grid-cols-3 gap-2 mt-2 w-full"
+                                }`}
+                        >
                             {option.choices?.map((choice, index) => {
                                 const disabled = !isVariantInStock({
                                     ...selectedOptions,
@@ -166,15 +176,7 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                                             <div className="absolute w-10 h-[2px] bg-red-400 rotate-45 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                                         )}
                                     </li>
-
-
-
-
-
-
                                 ) : (
-
-
                                     <li
                                         className="text-nowrap text-center border transition font-medium text-gray-800 py-2 px-4"
                                         style={{
@@ -185,80 +187,83 @@ const SheetProductDetails: React.FC<SheetProductDetailsProps> = ({ images, varia
                                                     ? "#FBCFE8"
                                                     : "white",
                                             color: selected || disabled ? "white" : "#f35c7a",
-                                            boxShadow: disabled ? "none" : "",
-
                                         }}
                                         key={`${choice.description}-${index}`}
                                         onClick={clickHandler}
                                     >
                                         {choice.description}
                                     </li>
-
                                 );
                             })}
                         </ul>
                     </div>
-
                 ))}
+
                 {/* Add to Cart Section */}
-                <div className='mt-9'>
-                    <AddToCartSection originalPrice={"$100"}
-                        discountedPrice={"$80"} productId={productId} variantId={selectedVariant?._id || ''}
+                <div className="mt-9">
+                    <AddToCartSection
+                        originalPrice="$100"
+                        discountedPrice="$80"
+                        productId={productId}
+                        variantId={selectedVariant?._id || ""}
                         maxQuantity={selectedVariant?.stock?.quantity || 0}
                     />
                 </div>
 
-
                 {/* Product Details Accordion */}
-                <div className='mt-9'>
+                <div className="mt-9">
                     <ProductDetailAccordion />
                 </div>
+
                 {/* Size Guide Modal */}
-                {(
-                    <ProductSizeModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)}>
-                        <SheetSizeGuideTable
-                            data={[
-                                {
-                                    name: 'Single',
-                                    duvetCover: '140x200',
-                                    fittedSheet: '90x190',
-                                    flatSheet: '180x290',
-                                    pillowcases: '50x75',
-                                },
-                                {
-                                    name: 'Double',
-                                    duvetCover: '200x200',
-                                    fittedSheet: '140x190',
-                                    flatSheet: '230x290',
-                                    pillowcases: '50x75',
-                                },
-                                {
-                                    name: 'King',
-                                    duvetCover: '230x220',
-                                    fittedSheet: '150x200',
-                                    flatSheet: '275x295',
-                                    pillowcases: '50x75',
-                                },
-                                {
-                                    name: 'Queen',
-                                    duvetCover: '230x220',
-                                    fittedSheet: '150x200',
-                                    flatSheet: '275x295',
-                                    pillowcases: '50x75',
-                                },
-                                {
-                                    name: 'Cali King',
-                                    duvetCover: '230x220',
-                                    fittedSheet: '150x200',
-                                    flatSheet: '275x295',
-                                    pillowcases: '50x75',
-                                },
-                            ]}
-                        />
-                    </ProductSizeModal>
-                )}
+                <ProductSizeModal
+                    isOpen={cartModalOpen}
+                    onClose={() => setCartModalOpen(false)}
+                >
+                    <SheetSizeGuideTable
+                        data={[
+                            {
+                                name: "Single",
+                                duvetCover: "140x200",
+                                fittedSheet: "90x190",
+                                flatSheet: "180x290",
+                                pillowcases: "50x75",
+                            },
+                            {
+                                name: "Double",
+                                duvetCover: "200x200",
+                                fittedSheet: "140x190",
+                                flatSheet: "230x290",
+                                pillowcases: "50x75",
+                            },
+                            {
+                                name: "King",
+                                duvetCover: "230x220",
+                                fittedSheet: "150x200",
+                                flatSheet: "275x295",
+                                pillowcases: "50x75",
+                            },
+                            {
+                                name: "Queen",
+                                duvetCover: "230x220",
+                                fittedSheet: "150x200",
+                                flatSheet: "275x295",
+                                pillowcases: "50x75",
+                            },
+                            {
+                                name: "Cali King",
+                                duvetCover: "230x220",
+                                fittedSheet: "150x200",
+                                flatSheet: "275x295",
+                                pillowcases: "50x75",
+                            },
+                        ]}
+                    />
+                </ProductSizeModal>
             </div>
         </div>
+
+
     );
 };
 
