@@ -18,6 +18,7 @@ import CartModal from "./CartModal";
 
 interface MobileNavMenuProps {
     showTopBar?: boolean;
+    cartItemCount: number;
 }
 
 const MobileNavMenu = ({ showTopBar }: MobileNavMenuProps) => {

@@ -15,16 +15,18 @@ import DesktopSubMenu from './DesktopSubMenu';
 import { useSaleCategoryStore } from "@/store/saleCategoryStore";
 import useResetOnResize from '@/hooks/useResetOnSize';
 import { useWixClient } from '@/hooks/useWixClient';
+import { cart } from '@wix/ecom';
 
 interface DesktopNavMenuProps {
     showTopBar?: boolean;
+    cartItemCount: number;
 }
 
-const DesktopNavMenu = ({ showTopBar }: DesktopNavMenuProps) => {
+const DesktopNavMenu = ({ showTopBar, cartItemCount }: DesktopNavMenuProps) => {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false)
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
-    const { cartModalOpen, setCartModalOpen, counter } = useCartStore();
+    const { cartModalOpen, setCartModalOpen } = useCartStore();
 
     const [subCollection, setSubCollection] = useState<CollectionItem[]>([])
     const [otherCollection, setOtherCollection] = useState<CollectionItem>()
@@ -68,6 +70,7 @@ const DesktopNavMenu = ({ showTopBar }: DesktopNavMenuProps) => {
             dependencies: [activeCategory]
         }
     ], 850)
+
 
     return (
         <>
@@ -151,7 +154,7 @@ const DesktopNavMenu = ({ showTopBar }: DesktopNavMenuProps) => {
                             </svg>
                         </div>
                         <div className='absolute -top-1.5 -right-4 w-3.5 h-3.5 rounded-full bg-[#273455] flex items-center text-white text-xs font-geograph justify-center'>
-                            {counter}
+                            {cartItemCount}
                         </div>
                         <div ref={cartModalRef}>
                             <CartModal

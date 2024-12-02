@@ -12,8 +12,6 @@ import ProductSizeSelector from '../ProductSizeSelector';
 import ProductSizeModal from '../ProductSizeModal';
 import SheetSizeGuideTable from './SheetSizeGuideTable';
 import AddToCartSection from '../AddToCartSection';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { Container } from "postcss";
 
 
 interface SheetProductDetailsProps {

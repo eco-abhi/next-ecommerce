@@ -6,11 +6,15 @@ import MobileNavMenu from '@/components/layout/MobileNavMenu';
 import { useSearchBarStore } from '@/store/searchBarStore';
 import SearchBar from './SearchBar';
 import { motion, useTransform, useScroll, useSpring } from "motion/react"
+import { useWixClient } from '@/hooks/useWixClient';
+import { useCartStore } from '@/store/cartStore';
 
 const Navbar = () => {
     const [showTopBar, setShowTopBar] = useState(true);
     const { openSearchBar, toggleOpenSearchBar } = useSearchBarStore();
     const { scrollY } = useScroll();
+    const wixClient = useWixClient();
+    const { cart, counter, getCart } = useCartStore();
 
     const rawY = useTransform(scrollY, [0, 200], [0, -40]);
     const y = useSpring(rawY, {
@@ -33,6 +37,11 @@ const Navbar = () => {
 
         return () => unsubscribe();
     }, [scrollY]);
+
+    useEffect(() => {
+        getCart(wixClient);
+    }, [wixClient, getCart]);
+
 
     return (
         <>
@@ -62,12 +71,12 @@ const Navbar = () => {
                     <nav className="w-full items-center justify-between shadow-md bg-transparent relative">
                         {/* Mobile Menu */}
                         <div className="tablet:hidden justify-center items-center w-full">
-                            <MobileNavMenu showTopBar={showTopBar} />
+                            <MobileNavMenu showTopBar={showTopBar} cartItemCount={counter} />
                         </div>
 
                         {/* Desktop Menu */}
                         <div className="hidden tablet:flex justify-center items-center w-full">
-                            <DesktopNavMenu showTopBar={showTopBar} />
+                            <DesktopNavMenu showTopBar={showTopBar} cartItemCount={counter} />
                         </div>
                     </nav>
                 </motion.div>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,7 +11,9 @@ import {
 import Image from "next/image";
 import { products } from "@wix/stores";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 
 interface ProductImageCarouselProps {
   imageUrls: products.MediaItem[];
@@ -38,13 +40,13 @@ export function ProductImageCarousel({ imageUrls }: ProductImageCarouselProps) {
 
   useEffect(() => {
     if (!api) return;
-
     setCurrentIndex(api.selectedScrollSnap());
     api.on("select", () => setCurrentIndex(api.selectedScrollSnap()));
   }, [api]);
 
   return (
     <div className="flex flex-col-reverse md:flex-row gap-4 w-full max-w-4xl mx-auto border-2">
+      {/* Thumbnail Navigation */}
       <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-[600px] p-2">
         {imageUrls.map((item, index) => (
           <button
@@ -68,25 +70,25 @@ export function ProductImageCarousel({ imageUrls }: ProductImageCarouselProps) {
         ))}
       </div>
 
+      {/* Main Image Carousel */}
       <div className="relative flex-grow">
-        <Carousel
-          setApi={setApi}
-          className="w-full"
-        >
+        <Carousel setApi={setApi} className="w-full">
           <CarouselContent>
             {imageUrls.map((item, index) => (
               <CarouselItem key={index} className="p-4">
                 <Card className="border-none shadow-none">
                   <CardContent className="p-1">
-                    <div className="relative aspect-square">
-                      <Image
-                        src={item.image?.url || ""}
-                        alt={`Product image ${index + 1}`}
-                        fill
-                        priority
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover rounded-lg"
-                      />
+                    <div className="relative aspect-square overflow-hidden group">
+                      <Zoom>
+                        <Image
+                          src={item.image?.url || ""}
+                          alt={`Product image ${index + 1}`}
+                          fill
+                          priority
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover rounded-lg cursor-zoom-in"
+                        />
+                      </Zoom>
                     </div>
                   </CardContent>
                 </Card>
@@ -94,6 +96,7 @@ export function ProductImageCarousel({ imageUrls }: ProductImageCarouselProps) {
             ))}
           </CarouselContent>
 
+          {/* Carousel Controls */}
           <div className="absolute bottom-10 right-10 flex space-x-2 z-10">
             <button
               onClick={handlePrevious}
@@ -115,4 +118,3 @@ export function ProductImageCarousel({ imageUrls }: ProductImageCarouselProps) {
     </div>
   );
 }
-

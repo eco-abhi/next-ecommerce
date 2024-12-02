@@ -69,6 +69,8 @@ export const useCartStore = create<CartState & CartActions>((set) => ({
                 ],
             });
 
+            console.log('response', response, productId, variantId, quantity, maxQuantity);
+
             if (response.cart) {
                 set({
                     cart: response.cart,

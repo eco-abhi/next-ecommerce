@@ -11,8 +11,6 @@ const CartSummary = () => {
 
   const { cart } = useCartStore();
 
-  console.log("CartSummary rendered", cart);
-
   const [deliveryDiscountProgress, setDeliveryDiscountProgress] = React.useState<number>(0);
   const [progessPercentage, setProgressPercentage] = React.useState<number>(0);
   const [cartDiscountText, setCartDiscountText] = React.useState<string>("");
